@@ -1,5 +1,5 @@
 from datetime import date
-from pymongo import MongoClient
+##from pymongo import MongoClient
 
 
 def _fmt_cell(valor, ancho):
@@ -31,25 +31,10 @@ def tabla(titulo, columnas, filas):
         print(" | ".join(celdas))
 
 
-_mongo_client = MongoClient("mongodb://127.0.0.1:27017", serverSelectionTimeoutMS=3000)
-_mongo_db = _mongo_client["admin_gym"]
-_usuarios_col = _mongo_db["usuarios"]
-_eliminaciones_col = _mongo_db["eliminaciones"]
-_historiales_col = _mongo_db["historial_medico"]
-_clientes_col = _mongo_db["clientes"]
-_entrenadores_col = _mongo_db["entrenadores"]
-_rutinas_col = _mongo_db["rutinas"]
-_membresias_col = _mongo_db["membresias"]
-_tipos_col = _mongo_db["tipos_membresia"]
-_pagos_col = _mongo_db["pagos"]
-_clases_col = _mongo_db["clases"]
-_reservas_col = _mongo_db["reservas"]
-_asistencias_col = _mongo_db["asistencias"]
-_sedes_col = _mongo_db["sedes"]
-
 class Usuarios:
     def __init__(self):
-        self.usuarios = list(_usuarios_col.find({}, {"_id": 0}))
+        self.usuarios = []  # En memoria, sin MongoDB
+        # self.usuarios = list(_usuarios_col.find({}, {"_id": 0}))
         self.historial_medico = None
         self.tabla_cliente = None
         self._ultimo_id_usuario = max((u.get("id_usuario", 0) for u in self.usuarios), default=0)
@@ -93,7 +78,7 @@ class Usuarios:
             "numero_celular": celular,
         }
         self.usuarios.append(usuario)
-        _usuarios_col.insert_one(usuario)
+        # _usuarios_col.insert_one(usuario)  # Comentado: Sin MongoDB
         if self.tabla_cliente:
             self.tabla_cliente.crear_estado_usuario(id_usuario, objetivo_entreno)
         if self.historial_medico:
@@ -161,7 +146,8 @@ class Usuarios:
 
 class EliminarUsuario:
     def __init__(self, usuarios: Usuarios):
-        self.eliminaciones = list(_eliminaciones_col.find({}, {"_id": 0}))
+        self.eliminaciones = []  # En memoria, sin MongoDB
+        # self.eliminaciones = list(_eliminaciones_col.find({}, {"_id": 0}))
         self.usuarios = usuarios
     def eliminar_usuario(self):
         print("\nELIMINAR USUARIO")
@@ -184,9 +170,9 @@ class EliminarUsuario:
             "fecha_baja": str(date.today()),
         }
         self.eliminaciones.append(registro)
-        _eliminaciones_col.insert_one(registro)
+        # _eliminaciones_col.insert_one(registro)  # Comentado: Sin MongoDB
         self.usuarios.usuarios.remove(usuario)
-        _usuarios_col.delete_one({"id_usuario": usuario["id_usuario"]})
+        # _usuarios_col.delete_one({"id_usuario": usuario["id_usuario"]})  # Comentado: Sin MongoDB
         print(f"\nUsuario '{usuario['nombre']} {usuario['apellido']}' eliminado correctamente.")
 
     def mostrar_eliminaciones(self):
@@ -200,7 +186,8 @@ class EliminarUsuario:
 
 class HistorialMedico:
     def __init__(self, usuarios: Usuarios):
-        self.historiales = list(_historiales_col.find({}, {"_id": 0}))
+        self.historiales = []  # En memoria, sin MongoDB
+        # self.historiales = list(_historiales_col.find({}, {"_id": 0}))
         self.usuarios = usuarios
         self._ultimo_id_historial = max((h.get("id_historial_med", 0) for h in self.historiales), default=0)
 
@@ -219,7 +206,7 @@ class HistorialMedico:
             "imc": imc,
         }
         self.historiales.append(historial)
-        _historiales_col.insert_one(historial)
+        # _historiales_col.insert_one(historial)  # Comentado: Sin MongoDB
         print("Registrado correctamente.")
 
     def actualizar_fecha_ingreso(self, id_cliente, fecha_ingreso):
@@ -227,10 +214,10 @@ class HistorialMedico:
         for h in self.historiales:
             if str(h["id_cliente"]).strip() == id_cliente:
                 h["fecha_ingreso"] = str(fecha_ingreso).strip()
-        _historiales_col.update_many(
-            {"id_cliente": id_cliente},
-            {"$set": {"fecha_ingreso": str(fecha_ingreso).strip()}},
-        )
+        # _historiales_col.update_many(  # Comentado: Sin MongoDB
+        #     {"id_cliente": id_cliente},
+        #     {"$set": {"fecha_ingreso": str(fecha_ingreso).strip()}},
+        # )
 
     def id_seleccionado_cliente(self, id_cliente):
         id_cliente = str(id_cliente).strip()
@@ -273,7 +260,8 @@ class HistorialMedico:
 
 class Cliente:
     def __init__(self, usuarios: Usuarios):
-        self.registros_estado = list(_clientes_col.find({}, {"_id": 0}))
+        self.registros_estado = []  # En memoria, sin MongoDB
+        # self.registros_estado = list(_clientes_col.find({}, {"_id": 0}))
         self.usuarios = usuarios
 
     def crear_cliente(self):
@@ -289,7 +277,7 @@ class Cliente:
             "objetivo": objetivo,
         }
         self.registros_estado.append(registro)
-        _clientes_col.insert_one(registro)
+        # _clientes_col.insert_one(registro)  # Comentado: Sin MongoDB
         print("Registrado correctamente.")
 
     def actualizar_fecha_ingreso(self, id_usuario, fecha_ingreso):
@@ -297,10 +285,10 @@ class Cliente:
         for r in self.registros_estado:
             if str(r["id_usuario"]).strip() == id_usuario:
                 r["fecha_ingreso"] = str(fecha_ingreso).strip()
-        _clientes_col.update_many(
-            {"id_usuario": id_usuario},
-            {"$set": {"fecha_ingreso": str(fecha_ingreso).strip()}},
-        )
+        # _clientes_col.update_many(  # Comentado: Sin MongoDB
+        #     {"id_usuario": id_usuario},
+        #     {"$set": {"fecha_ingreso": str(fecha_ingreso).strip()}},
+        # )
 
     def obtener_idusuario(self, id_usuario):
         id_usuario = str(id_usuario).strip()
@@ -357,9 +345,11 @@ class Entrenadores:
                 "ejercicios": ["Plancha", "Zancadas"],
             },
         ]
-        if _entrenadores_col.count_documents({}) == 0:
-            _entrenadores_col.insert_many(entrenadores_base)
-        self.entrenadores = list(_entrenadores_col.find({}, {"_id": 0}))
+        if len(entrenadores_base) > 0:  # Sin MongoDB
+            # if _entrenadores_col.count_documents({}) == 0:
+            #     _entrenadores_col.insert_many(entrenadores_base)
+            self.entrenadores = entrenadores_base
+        # self.entrenadores = list(_entrenadores_col.find({}, {"_id": 0}))
         self.usuarios = usuarios
         self._ultimo_id_entrenador = len(self.entrenadores)
 
@@ -415,7 +405,8 @@ class Entrenadores:
 
 class Rutinas:
     def __init__(self, usuarios: Usuarios, tabla_cliente: Cliente, tabla_entrenadores: Entrenadores):
-        self.rutinas = list(_rutinas_col.find({}, {"_id": 0}))
+        self.rutinas = []  # En memoria, sin MongoDB
+        # self.rutinas = list(_rutinas_col.find({}, {"_id": 0}))
         self.usuarios = usuarios
         self.tabla_cliente = tabla_cliente
         self.tabla_entrenadores = tabla_entrenadores
@@ -456,7 +447,7 @@ class Rutinas:
             "ejercicios": ", ".join(ejercicios_sugeridos),
         }
         self.rutinas.append(rutina)
-        _rutinas_col.insert_one(rutina)
+        # _rutinas_col.insert_one(rutina)  # Comentado: Sin MongoDB
         print("Registrado correctamente.")
 
     def mostrar_rutinas(self):
@@ -492,7 +483,8 @@ class Rutinas:
 
 class Membresia:
     def __init__(self, usuarios: Usuarios):
-        self.membresias = list(_membresias_col.find({}, {"_id": 0}))
+        self.membresias = []  # En memoria, sin MongoDB
+        # self.membresias = list(_membresias_col.find({}, {"_id": 0}))
         self.usuarios = usuarios
         self._ultimo_id = max((m.get("id_membresia", 0) for m in self.membresias), default=0)
 
@@ -517,7 +509,7 @@ class Membresia:
             "estado"       : estado,
         }
         self.membresias.append(membresia)
-        _membresias_col.insert_one(membresia)
+        # _membresias_col.insert_one(membresia)  # Comentado: Sin MongoDB
         print("Registrado correctamente.")
 
     def id_seleccionado(self, id_membresia):
@@ -568,7 +560,8 @@ class TipoMembresia:
     TIPOS_VALIDOS = ["basica", "platinum", "premium", "vip"]
 
     def __init__(self, tabla_membresia: Membresia):
-        self.tipos = list(_tipos_col.find({}, {"_id": 0}))
+        self.tipos = []  # En memoria, sin MongoDB
+        # self.tipos = list(_tipos_col.find({}, {"_id": 0}))
         self.tabla_membresia = tabla_membresia
         self._ultimo_id = max((t.get("id_tipo", 0) for t in self.tipos), default=0)
 
@@ -592,7 +585,7 @@ class TipoMembresia:
             "tipo": tipo,
         }
         self.tipos.append(tipo_doc)
-        _tipos_col.insert_one(tipo_doc)
+        # _tipos_col.insert_one(tipo_doc)  # Comentado: Sin MongoDB
         print("Registrado correctamente.")
 
     def id_seleccionado(self, id_tipo):
@@ -637,7 +630,8 @@ class TipoMembresia:
 
 class Pago:
     def __init__(self, usuarios: Usuarios, tabla_tipo_membresia: TipoMembresia):
-        self.pagos = list(_pagos_col.find({}, {"_id": 0}))
+        self.pagos = []  # En memoria, sin MongoDB
+        # self.pagos = list(_pagos_col.find({}, {"_id": 0}))
         self.usuarios = usuarios
         self.tabla_tipo_membresia = tabla_tipo_membresia
         self._ultimo_id = max((p.get("id_pago", 0) for p in self.pagos), default=0)
@@ -669,7 +663,7 @@ class Pago:
             "estado_cuenta": estado_cuenta,
         }
         self.pagos.append(pago_doc)
-        _pagos_col.insert_one(pago_doc)
+        # _pagos_col.insert_one(pago_doc)  # Comentado: Sin MongoDB
         print("Registrado correctamente.")
 
     def mostrar_pagos(self):
@@ -707,7 +701,8 @@ class Pago:
 
 class Clases:
     def __init__(self, tabla_entrenadores: Entrenadores, tabla_sede):
-        self.clases = list(_clases_col.find({}, {"_id": 0}))
+        self.clases = []  # En memoria, sin MongoDB
+        # self.clases = list(_clases_col.find({}, {"_id": 0}))
         self.tabla_entrenadores = tabla_entrenadores
         self.tabla_sede = tabla_sede
         self.tabla_reservas = None
@@ -752,7 +747,7 @@ class Clases:
             "cupo_total": cupo_total,
         }
         self.clases.append(clase_doc)
-        _clases_col.insert_one(clase_doc)
+        # _clases_col.insert_one(clase_doc)  # Comentado: Sin MongoDB
         print("Registrado correctamente.")
 
     def cupos_ocupados(self, id_clase):
@@ -841,7 +836,8 @@ class Clases:
 
 class Reservas:
     def __init__(self, usuarios: Usuarios, tabla_clases: Clases):
-        self.reservas = list(_reservas_col.find({}, {"_id": 0}))
+        self.reservas = []  # En memoria, sin MongoDB
+        # self.reservas = list(_reservas_col.find({}, {"_id": 0}))
         self.usuarios = usuarios
         self.tabla_clases = tabla_clases
         self._ultimo_id = max((r.get("id_reserva", 0) for r in self.reservas), default=0)
@@ -879,14 +875,14 @@ class Reservas:
             "estado_reserva": estado_reserva,
         }
         self.reservas.append(reserva)
-        _reservas_col.insert_one(reserva)
+        # _reservas_col.insert_one(reserva)  # Comentado: Sin MongoDB
 
         if clase.get("id_reserva") is None:
             clase["id_reserva"] = id_reserva
-            _clases_col.update_one(
-                {"id_clase": clase["id_clase"]},
-                {"$set": {"id_reserva": id_reserva}},
-            )
+            # _clases_col.update_one(  # Comentado: Sin MongoDB
+            #     {"id_clase": clase["id_clase"]},
+            #     {"$set": {"id_reserva": id_reserva}},
+            # )
 
         print(f"Reserva registrada correctamente. Cupos restantes: {cupos_libres - 1}")
 
@@ -940,7 +936,8 @@ class Reservas:
 
 class Asistencia:
     def __init__(self, tabla_reservas: Reservas):
-        self.asistencias = list(_asistencias_col.find({}, {"_id": 0}))
+        self.asistencias = []  # En memoria, sin MongoDB
+        # self.asistencias = list(_asistencias_col.find({}, {"_id": 0}))
         self.tabla_reservas = tabla_reservas
         self._ultimo_id = max((a.get("id_asistencia", 0) for a in self.asistencias), default=0)
 
@@ -988,12 +985,12 @@ class Asistencia:
             "horas_salida": horas_salida,
         }
         self.asistencias.append(asistencia_doc)
-        _asistencias_col.insert_one(asistencia_doc)
+        # _asistencias_col.insert_one(asistencia_doc)  # Comentado: Sin MongoDB
         reserva["estado_reserva"] = estado_asistencia
-        _reservas_col.update_one(
-            {"id_reserva": reserva["id_reserva"]},
-            {"$set": {"estado_reserva": estado_asistencia}},
-        )
+        # _reservas_col.update_one(  # Comentado: Sin MongoDB
+        #     {"id_reserva": reserva["id_reserva"]},
+        #     {"$set": {"estado_reserva": estado_asistencia}},
+        # )
         print("Registrado correctamente.")
 
     def mostrar_asistencias(self):
@@ -1046,9 +1043,11 @@ class Sede:
                 "horario": "05:30-21:30",
             },
         ]
-        if _sedes_col.count_documents({}) == 0:
-            _sedes_col.insert_many(sedes_base)
-        self.sedes = list(_sedes_col.find({}, {"_id": 0}))
+        if len(sedes_base) > 0:  # Sin MongoDB
+            # if _sedes_col.count_documents({}) == 0:
+            #     _sedes_col.insert_many(sedes_base)
+            self.sedes = sedes_base
+        # self.sedes = list(_sedes_col.find({}, {"_id": 0}))
 
     def elegir_sede(self):
         print("\nSEDES DISPONIBLES")
