@@ -3,11 +3,13 @@ from mysql.connector import Error
 
 # CONFIGURACIÓN PARA XAMPP (credenciales por defecto)
 DB_CONFIG = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': '', 
-    'database': 'gym_db'
+    'host': '62.169.20.169',
+    'user': 'patrones',
+    'password': 'patrones123', 
+    'database': 'gym'
 }
+if con.is_connected():
+    print("✓ Conexión a MySQL exitosa")
 
 def create_connection(host_name, user_name, user_password, db_name):
     """Crea una conexión a la base de datos MySQL"""
