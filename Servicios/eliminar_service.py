@@ -1,5 +1,5 @@
 from datetime import date
-from components.eliminarUsuario import Eliminar
+from components.eliminarModel import Eliminar
 
 class EliminarService:
     """Servicio para gestionar eliminación de usuarios"""

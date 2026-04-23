@@ -1,7 +1,16 @@
 import mysql.connector as mysql
 from mysql.connector import Error 
 
+# CONFIGURACIÓN PARA XAMPP (credenciales por defecto)
+DB_CONFIG = {
+    'host': 'localhost',
+    'user': 'root',
+    'password': '', 
+    'database': 'gym_db'
+}
+
 def create_connection(host_name, user_name, user_password, db_name):
+    """Crea una conexión a la base de datos MySQL"""
     connection = None
     try:
         connection = mysql.connect(
@@ -10,19 +19,65 @@ def create_connection(host_name, user_name, user_password, db_name):
             passwd=user_password,
             database=db_name
         )
-        print("Connection to MySQL DB successful")
+        print("✓ Conexión a MySQL exitosa")
     except Error as e:
-        print(f"The error '{e}' occurred")
+        print(f"✗ Error de conexión: {e}")
     return connection 
 
-connection = create_connection("localhost", "root", "root", "gym_db")
-cursor = connection.cursor()
-cursor.execute("SELECT * FROM usuarios")
-result = cursor.fetchall()
-for row in result:
-    print(row)    
+def create_database_if_not_exists(host_name, user_name, user_password, db_name):
+    """Crea la base de datos si no existe"""
+    try:
+        connection = mysql.connect(
+            host=host_name,
+            user=user_name,
+            passwd=user_password
+        )
+        cursor = connection.cursor()
+        cursor.execute(f"CREATE DATABASE IF NOT EXISTS {db_name}")
+        cursor.execute(f"USE {db_name}")
+        
+        # Crear tabla usuarios
+        create_table_query = """
+        CREATE TABLE IF NOT EXISTS usuarios (
+            id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+            nombre VARCHAR(100),
+            apellido VARCHAR(100),
+            fecha_nacimiento DATE,
+            correo_electronico VARCHAR(100),
+            cedula VARCHAR(20),
+            direccion VARCHAR(255),
+            numero_celular VARCHAR(20)
+        )
+        """
+        cursor.execute(create_table_query)
+        connection.commit()
+        print("✓ Base de datos y tablas creadas")
+        cursor.close()
+        connection.close()
+    except Error as e:
+        print(f"✗ Error al crear base de datos: {e}")
+
+# Crear base de datos y tablas al importar el módulo
+try:
+    create_database_if_not_exists(
+        DB_CONFIG['host'],
+        DB_CONFIG['user'],
+        DB_CONFIG['password'],
+        DB_CONFIG['database']
+    )
+except Exception as e:
+    print(f"✗ Error: {e}")
+
+# Conectar a la base de datos
+connection = create_connection(
+    DB_CONFIG['host'],
+    DB_CONFIG['user'],
+    DB_CONFIG['password'],
+    DB_CONFIG['database']
+)
 
 def crear_usuario(connection, usuario):
+    """Inserta un nuevo usuario en la base de datos"""
     cursor = connection.cursor()
     query = """
     INSERT INTO usuarios (id_usuario, nombre, apellido, fecha_nacimiento, correo_electronico, cedula, direccion, numero_celular)
@@ -38,5 +93,10 @@ def crear_usuario(connection, usuario):
         usuario["direccion"],
         usuario["numero_celular"]
     )
-    cursor.execute(query, values)
-    connection.commit()
+    try:
+        cursor.execute(query, values)
+        connection.commit()
+        print(f"✓ Usuario '{usuario['nombre']}' registrado correctamente")
+    except Error as e:
+        print(f"✗ Error al registrar usuario: {e}")
+        connection.rollback()
