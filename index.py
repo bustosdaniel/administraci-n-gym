@@ -4,9 +4,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from datetime import date
 from components.usuarios import Usuarios
-from components.eliminarUsuario import EliminarUsuario
+from components.eliminar import EliminarUsuario
 from components.historial_medico import HistorialMedicoManager
-from components.cliente import Cliente
+from components.clientes import Cliente
 from components.entrenadores import Entrenadores
 from components.rutinas import Rutinas
 from components.membresia import Membresia
