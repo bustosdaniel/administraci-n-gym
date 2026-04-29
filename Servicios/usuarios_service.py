@@ -1,4 +1,4 @@
-from components.usuario import Usuario
+from components.usuarios import Usuario
 
 def tabla(titulo, columnas, filas):
     """Función auxiliar para mostrar tablas formateadas"""
