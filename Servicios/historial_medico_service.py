@@ -1,4 +1,4 @@
-from components.historial_medico_model import HistorialMedico
+from components.historial_medico import HistorialMedico
 
 class HistorialMedicoService:
     """Servicio para gestionar historiales médicos de usuarios"""

@@ -76,6 +76,16 @@ connection = create_connection(
     DB_CONFIG['database']
 )
 
+con = mysql.connect(
+    host="62.169.20.169",
+    user="patrones",
+    password="patrones123",
+    database="gym"
+)
+if con.is_connected():
+    print("Conexión exitosa")
+    cursor = con.cursor()
+#port 3600
 def crear_usuario(connection, usuario):
     """Inserta un nuevo usuario en la base de datos"""
     cursor = connection.cursor()

@@ -4,9 +4,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from datetime import date
 from components.usuarios import Usuarios
-from components.eliminarUsuario import EliminarUsuario
+from components.eliminar import EliminarUsuario
 from components.historial_medico import HistorialMedicoManager
-from components.cliente import Cliente
+from components.clientes import Cliente
 from components.entrenadores import Entrenadores
 from components.rutinas import Rutinas
 from components.membresia import Membresia
@@ -45,43 +45,6 @@ def tabla(titulo, columnas, filas):
             valor = fila[i] if i < len(fila) else "-"
             celdas.append(_fmt_cell(valor, ancho))
         print(" | ".join(celdas))
-
-
-    def __init__(self, usuarios: Usuarios):
-        self.eliminaciones = []
-        self.usuarios = usuarios
-    def eliminar_usuario(self):
-        print("\nELIMINAR USUARIO")
-        usuario = self.usuarios.usuario_elegido()
-        if not usuario:
-            return
-        confirmacion = input(
-            f"¿Seguro que desea eliminar a '{usuario['nombre']} {usuario['apellido']}'? (si/no): "
-        ).strip().lower()
-        if confirmacion == "no":
-            print("Operación cancelada. Regresando al menú principal...")
-            return
-        if confirmacion != "si":
-            print("Respuesta inválida. Regresando al menú principal...")
-            return
-        registro = {
-            "id_usuario" : usuario.id_usuario,
-            "nombre" : usuario.nombre,
-            "apellido" : usuario.apellido,
-            "fecha_baja": str(date.today()),
-        }
-        self.eliminaciones.append(registro)
-        self.usuarios.usuarios.remove(usuario)
-        print(f"\nUsuario '{usuario['nombre']} {usuario['apellido']}' eliminado correctamente.")
-
-    def mostrar_eliminaciones(self):
-        if not self.eliminaciones:
-            print("\nNo hay registros de eliminaciones.")
-            return
-        print("\nHISTORIAL DE BAJAS DE USUARIOS")
-        for e in self.eliminaciones:
-            print(f"[{e['id_usuario']}] {e['nombre']} {e['apellido']}|"
-                  f"Fecha baja: {e['fecha_baja']}")
 
 
 if __name__ == "__main__":
@@ -124,7 +87,8 @@ if __name__ == "__main__":
         print("19. Ver reservas")
         print("20. Ver asistencias")
         print("21. Eliminar usuario")
-        print("22. Salir")
+        print("22. Ver eliminaciones")
+        print("23. Salir")
         opcion = input("Seleccione una opción: ").strip()
 
         if opcion == "1":
@@ -170,6 +134,8 @@ if __name__ == "__main__":
         elif opcion == "21":
             eliminar_cliente.eliminar_usuario()
         elif opcion == "22":
+            eliminar_cliente.mostrar_eliminaciones()
+        elif opcion == "23":
             print("Saliendo del sistema...")
             break
         else:
