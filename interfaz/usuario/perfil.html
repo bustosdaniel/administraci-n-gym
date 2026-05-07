@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GYM FORTE — Mi Perfil</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="perfil.js" defer></script>
+</head>
+
+<body>
+
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-text">GYM FORTE</div>
+      <div class="logo-sub">Portal del Miembro</div>
+    </div>
+    <nav>
+      <div class="nav-section">Mi cuenta</div>
+      <div class="nav-item active"><span class="icon">👤</span> Mi Perfil</div>
+      <div class="nav-item"><span class="icon">🗓</span> Mis Clases</div>
+      <div class="nav-item"><span class="icon">🏋️</span> Mi Rutina</div>
+      <div class="nav-item"><span class="icon">💳</span> Mis Pagos</div>
+      <div class="nav-item"><span class="icon">❤️</span> Mi Salud</div>
+      <div class="nav-item"><span class="icon">👨‍🏫</span> Mis Entrenadores</div>
+
+      <div class="nav-section">Gimnasio</div>
+      <div class="nav-item"><span class="icon">📋</span> Reservar Clase</div>
+      <div class="nav-item"><span class="icon">📊</span> Mi Progreso</div>
+      <div class="nav-item"><span class="icon">👨‍🏫</span> Entrenadores</div>
+      <div class="nav-section">Soporte</div>
+      <div class="nav-item"><span class="icon">⚙️</span> Configuración</div>
+      <div class="nav-item"><span class="icon">
+        <a href="../login/login.html">
+        🚪</span> Cerrar sesión</div>
+        </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-info">
+        <div class="avatar">MR</div>
+        <div>
+          <div class="user-name">Marco Ruiz</div>
+          <div class="user-role">MIEMBRO #0247</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="page-title">GYM FORTE</div>
+      <div class="breadcrumb">PORTAL / <span>MI PERFIL</span></div>
+      <div id="dateDisplay" style="font-family:var(--mono);font-size:.6rem;color:var(--muted);margin-left:auto;"></div>
+      <button class="btn btn-ghost" id="editBtn" onclick="toggleEdit()">✏ Editar perfil</button>
+      <button class="btn btn-primary" id="saveBtn" onclick="saveProfile()" style="display:none">✓ Guardar
+        cambios</button>
+    </div>
+
+    <div class="content">
+      <div class="alert-bar">
+        <span>⚠</span>
+        <div><strong>AVISO —</strong> Tu membresía Premium vence en <strong>25 días</strong> (31 May 2026). Renueva
+          ahora para no perder acceso.</div>
+        <button class="btn btn-ghost" style="margin-left:auto;flex-shrink:0">Renovar →</button>
+      </div>
+
+      <div class="profile-hero" id="profileHero">
+        <div class="hero-avatar">MR</div>
+        <div class="hero-info">
+          <div class="hero-name">MARCO RUIZ</div>
+          <div class="hero-meta">
+            <span class="badge badge-active">● ACTIVO</span>
+            <span class="badge badge-premium">PREMIUM</span>
+            <span class="hero-tag">MIEMBRO DESDE <span>Ene 2025</span></span>
+            <span class="hero-tag">ID <span>#0247</span></span>
+            <span class="hero-tag">CÉDULA <span>123456789</span></span>
+          </div>
+        </div>
+        <div class="hero-actions">
+          <div style="text-align:right">
+            <div style="font-family:var(--mono);font-size:.55rem;color:var(--muted);letter-spacing:1px">ASISTENCIAS ESTE
+              MES</div>
+            <div style="font-family:var(--display);font-size:2rem;color:var(--accent);line-height:1">18</div>
+            <div style="font-family:var(--mono);font-size:.55rem;color:var(--muted)">de 22 días hábiles</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <div class="panel" id="panelDatos">
+          <div class="panel-header">
+            <div class="panel-title">Datos Personales</div>
+            <span style="font-family:var(--mono);font-size:.55rem;color:var(--muted)">Última edición: 02 May 2026</span>
+          </div>
+          <div class="panel-body">
+            <div class="field-grid">
+              <div class="field-item">
+                <div class="field-label">Nombre</div>
+                <div class="field-value">Marco</div>
+                <input class="field-input-edit" type="text" value="Marco" id="fNombre">
+              </div>
+              <div class="field-item">
+                <div class="field-label">Apellido</div>
+                <div class="field-value">Ruiz</div>
+                <input class="field-input-edit" type="text" value="Ruiz" id="fApellido">
+              </div>
+              <div class="field-item" style="grid-column:1/-1">
+                <div class="field-label">Correo Electrónico</div>
+                <div class="field-value">marco@gmail.com</div>
+                <input class="field-input-edit" type="email" value="marco@gmail.com" id="fCorreo">
+              </div>
+              <div class="field-item">
+                <div class="field-label">Teléfono</div>
+                <div class="field-value">+34 666 111 111</div>
+                <input class="field-input-edit" type="tel" value="+34666111111" id="fTelefono">
+              </div>
+              <div class="field-item">
+                <div class="field-label">Fecha de Nacimiento</div>
+                <div class="field-value">15 Mar 1993</div>
+                <input class="field-input-edit" type="date" value="1993-03-15" id="fFecha">
+              </div>
+              <div class="field-item" style="grid-column:1/-1">
+                <div class="field-label">Dirección</div>
+                <div class="field-value">Calle 1, 10</div>
+                <input class="field-input-edit" type="text" value="Calle 1, 10" id="fDireccion">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">Mi Membresía</div>
+              <span class="badge badge-premium">PREMIUM</span>
+            </div>
+            <div class="membresia-card">
+              <div class="memb-row">
+                <div class="memb-key">Plan activo</div>
+                <div class="memb-val">Premium</div>
+              </div>
+              <div class="memb-row">
+                <div class="memb-key">Inicio</div>
+                <div class="memb-val">01 Feb 2026</div>
+              </div>
+              <div class="memb-row">
+                <div class="memb-key">Vencimiento</div>
+                <div class="memb-val" style="color:var(--yellow)">31 May 2026</div>
+              </div>
+              <div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width:76%"></div>
+                </div>
+                <div class="progress-label">
+                  <span>01 Feb</span>
+                  <span style="color:var(--accent)">76% transcurrido</span>
+                  <span>31 May</span>
+                </div>
+              </div>
+              <div class="memb-row" style="margin-top:4px">
+                <div class="memb-key">Precio mensual</div>
+                <div class="memb-val" style="color:var(--green)">$850 / mes</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">Este Mes</div>
+            </div>
+            <div class="mini-stats">
+              <div class="mini-stat">
+                <div class="mini-stat-icon">🏋️</div>
+                <div class="mini-stat-val">18</div>
+                <div class="mini-stat-label">ASISTENCIAS</div>
+              </div>
+              <div class="mini-stat">
+                <div class="mini-stat-icon">🗓</div>
+                <div class="mini-stat-val">6</div>
+                <div class="mini-stat-label">CLASES RESERV.</div>
+              </div>
+              <div class="mini-stat">
+                <div class="mini-stat-icon">⚡</div>
+                <div class="mini-stat-val">82%</div>
+                <div class="mini-stat-label">ASISTENCIA</div>
+              </div>
+              <div class="mini-stat">
+                <div class="mini-stat-icon">🔥</div>
+                <div class="mini-stat-val">5</div>
+                <div class="mini-stat-label">RACHA (DÍAS)</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">Mis Clases Esta Semana</div>
+            <a class="panel-action" href="#">Reservar más →</a>
+          </div>
+          <div class="clase-item">
+            <div class="clase-dot" style="background:var(--accent)"></div>
+            <div class="clase-info">
+              <div class="clase-nombre">CrossFit Matutino</div>
+              <div class="clase-sub">Entrenador: Carlos V. — Sala A</div>
+            </div>
+            <div class="clase-hora">Lun 06:00</div>
+            <span class="badge badge-active">Confirmada</span>
+          </div>
+          <div class="clase-item">
+            <div class="clase-dot" style="background:var(--green)"></div>
+            <div class="clase-info">
+              <div class="clase-nombre">Yoga & Stretching</div>
+              <div class="clase-sub">Entrenadora: Luisa M. — Sala B</div>
+            </div>
+            <div class="clase-hora">Mié 08:30</div>
+            <span class="badge badge-active">Confirmada</span>
+          </div>
+          <div class="clase-item">
+            <div class="clase-dot" style="background:var(--yellow)"></div>
+            <div class="clase-info">
+              <div class="clase-nombre">Spinning Avanzado</div>
+              <div class="clase-sub">Entrenador: Pedro A. — Sala Spin</div>
+            </div>
+            <div class="clase-hora">Vie 10:00</div>
+            <span class="badge badge-pending">Lista espera</span>
+          </div>
+          <div class="clase-item">
+            <div class="clase-dot" style="background:var(--purple)"></div>
+            <div class="clase-info">
+              <div class="clase-nombre">Zumba Nocturna</div>
+              <div class="clase-sub">Entrenadora: Andrea R. — Sala C</div>
+            </div>
+            <div class="clase-hora">Sáb 19:30</div>
+            <span class="badge badge-active">Confirmada</span>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">Mi Rutina Actual</div>
+            <a class="panel-action" href="#">Ver completa →</a>
+          </div>
+          <div class="panel-body" style="padding-top:16px">
+            <div class="rutina-day">
+              <div class="rutina-day-title">Lunes — Pecho & Tríceps</div>
+              <div class="rutina-ejercicio">
+                <div class="ej-num">1</div>
+                <div class="ej-info">
+                  <div class="ej-nombre">Press de Banca</div>
+                  <div class="ej-detalle">4 series × 10 reps — 70 kg</div>
+                </div>
+              </div>
+              <div class="rutina-ejercicio">
+                <div class="ej-num">2</div>
+                <div class="ej-info">
+                  <div class="ej-nombre">Fondos en paralelas</div>
+                  <div class="ej-detalle">3 series × 12 reps</div>
+                </div>
+              </div>
+            </div>
+            <div class="rutina-day">
+              <div class="rutina-day-title">Miércoles — Pierna & Glúteo</div>
+              <div class="rutina-ejercicio">
+                <div class="ej-num">1</div>
+                <div class="ej-info">
+                  <div class="ej-nombre">Sentadilla Libre</div>
+                  <div class="ej-detalle">5 series × 8 reps — 80 kg</div>
+                </div>
+              </div>
+              <div class="rutina-ejercicio">
+                <div class="ej-num">2</div>
+                <div class="ej-info">
+                  <div class="ej-nombre">Prensa de Pierna</div>
+                  <div class="ej-detalle">4 series × 15 reps — 120 kg</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">Mi Salud</div>
+            <span style="font-family:var(--mono);font-size:.55rem;color:var(--muted)">Actualizado: Mar 2026</span>
+          </div>
+          <div class="salud-grid">
+            <div class="salud-item">
+              <div class="salud-val">78<span class="salud-unit"> kg</span></div>
+              <div class="salud-key">PESO</div>
+            </div>
+            <div class="salud-item">
+              <div class="salud-val">182<span class="salud-unit"> cm</span></div>
+              <div class="salud-key">ESTATURA</div>
+            </div>
+            <div class="salud-item">
+              <div class="salud-val">23.5</div>
+              <div class="salud-key">IMC</div>
+            </div>
+            <div class="salud-item">
+              <div class="salud-val" style="color:var(--red)">O+</div>
+              <div class="salud-key">TIPO SANGRE</div>
+            </div>
+            <div class="salud-item" style="grid-column:1/-1">
+              <div
+                style="font-family:var(--mono);font-size:.6rem;color:var(--muted);letter-spacing:1px;margin-bottom:6px">
+                LESIONES / CONDICIONES</div>
+              <div style="font-size:.8rem;color:var(--muted)">Sin lesiones reportadas</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">Historial de Pagos</div>
+            <a class="panel-action" href="#">Ver todos →</a>
+          </div>
+          <div class="pago-item">
+            <div class="pago-icon income">💰</div>
+            <div class="pago-info">
+              <div class="pago-desc">Plan Premium — Mayo 2026</div>
+              <div class="pago-fecha">01 May 2026 · Tarjeta ••4521</div>
+            </div>
+            <div class="pago-monto income">+$850</div>
+          </div>
+          <div class="pago-item">
+            <div class="pago-icon income">💰</div>
+            <div class="pago-info">
+              <div class="pago-desc">Plan Premium — Abril 2026</div>
+              <div class="pago-fecha">01 Abr 2026 · Tarjeta ••4521</div>
+            </div>
+            <div class="pago-monto income">+$850</div>
+          </div>
+          <div class="pago-item">
+            <div class="pago-icon income">💰</div>
+            <div class="pago-info">
+              <div class="pago-desc">Plan Premium — Marzo 2026</div>
+              <div class="pago-fecha">01 Mar 2026 · Tarjeta ••4521</div>
+            </div>
+            <div class="pago-monto income">+$850</div>
+          </div>
+          <div class="pago-item">
+            <div class="pago-icon pending">⏳</div>
+            <div class="pago-info">
+              <div class="pago-desc">Renovación — Jun 2026</div>
+              <div class="pago-fecha">Próximo: 01 Jun 2026</div>
+            </div>
+            <div class="pago-monto pending">$850</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">
+    <span class="toast-icon">✓</span>
+    <span id="toastMsg">Cambios guardados correctamente</span>
+  </div>
+
+</body>
+</html>

@@ -4,14 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GYM FORTE</title>
-<link rel="stylesheet" href="index.js">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="admin.css">
+<script src="admin.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-
 </head>
 <body>
 
-<!-- SIDEBAR -->
 <aside class="sidebar">
   <div class="logo">
     <div class="logo-text">GYM FORTE</div>
@@ -43,7 +41,6 @@
   </div>
 </aside>
 
-<!-- MAIN -->
 <div class="main">
   <div class="topbar">
     <div class="page-title">GYM FORTE</div>
@@ -53,8 +50,6 @@
   </div>
 
   <div class="content">
-
-    <!-- STATS -->
     <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-icon">👥</div>
@@ -82,10 +77,7 @@
       </div>
     </div>
 
-    <!-- ROW 2 -->
     <div class="grid-3">
-
-      <!-- MEMBERS TABLE -->
       <div class="panel">
         <div class="panel-header">
           <div class="panel-title">Miembros Recientes</div>
@@ -175,7 +167,6 @@
         </table>
       </div>
 
-      <!-- OCUPACION -->
       <div class="panel">
         <div class="panel-header">
           <div class="panel-title">Ocupación</div>
@@ -223,10 +214,7 @@
       </div>
     </div>
 
-    <!-- ROW 3 -->
     <div class="grid-2">
-
-      <!-- CLASES -->
       <div class="panel">
         <div class="panel-header">
           <div class="panel-title">Clases de Hoy</div>
@@ -337,7 +325,6 @@
   </div>
 </div>
 
-<!-- MODAL NUEVO MIEMBRO -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
   <div class="modal">
     <div class="modal-header">
@@ -347,35 +334,67 @@
     <div class="modal-body">
       <div class="field-row">
         <div class="field">
-          <label class="field-label">Nombre</label>
-          <input class="field-input" type="text" placeholder="Ej. Carlos">
+          <label class="field-label">Nombre *</label>
+          <input class="field-input" type="text" id="inputNombre" placeholder="Ej. Carlos">
         </div>
         <div class="field">
-          <label class="field-label">Apellido</label>
-          <input class="field-input" type="text" placeholder="Ej. Rodríguez">
+          <label class="field-label">Apellido *</label>
+          <input class="field-input" type="text" id="inputApellido" placeholder="Ej. Rodríguez">
         </div>
       </div>
       <div class="field">
-        <label class="field-label">Correo Electrónico</label>
-        <input class="field-input" type="email" placeholder="correo@ejemplo.com">
+        <label class="field-label">Correo Electrónico *</label>
+        <input class="field-input" type="email" id="inputCorreo" placeholder="correo@ejemplo.com">
       </div>
       <div class="field-row">
         <div class="field">
-          <label class="field-label">Teléfono</label>
-          <input class="field-input" type="tel" placeholder="+52 55 0000 0000">
+          <label class="field-label">Cédula *</label>
+          <input class="field-input" type="text" id="inputCedula" placeholder="Ej. 123456789">
         </div>
         <div class="field">
-          <label class="field-label">Plan</label>
-          <select class="field-input">
-            <option>Básico — $450/mes</option>
-            <option>Premium — $850/mes</option>
-            <option>Elite — $1,200/mes</option>
-          </select>
+          <label class="field-label">Teléfono *</label>
+          <input class="field-input" type="tel" id="inputTelefono" placeholder="+34 666 111 111">
         </div>
       </div>
-      <div class="field">
-        <label class="field-label">Fecha de Inicio</label>
-        <input class="field-input" type="date">
+      <div class="field-row">
+        <div class="field">
+          <label class="field-label">Dirección *</label>
+          <input class="field-input" type="text" id="inputDireccion" placeholder="Calle, número">
+        </div>
+        <div class="field">
+          <label class="field-label">Fecha de Nacimiento *</label>
+          <input class="field-input" type="date" id="inputFechaNac">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label class="field-label">Peso (kg)</label>
+          <input class="field-input" type="number" id="inputPeso" placeholder="70">
+        </div>
+        <div class="field">
+          <label class="field-label">Estatura (cm)</label>
+          <input class="field-input" type="number" id="inputEstatura" placeholder="180">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label class="field-label">Tipo de Sangre</label>
+          <select class="field-input" id="inputTipoSangre">
+            <option value="">Seleccionar...</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label">Lesiones o Condiciones</label>
+          <input class="field-input" type="text" id="inputLesiones" placeholder="Ej. Lesión de espalda">
+        </div>
       </div>
     </div>
     <div class="modal-footer">
@@ -385,7 +404,6 @@
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast">
   <span class="toast-icon">✓</span>
   <span id="toastMsg">Miembro registrado correctamente</span>

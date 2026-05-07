@@ -1,0 +1,42 @@
+[
+  {
+    "id_usuario": 1,
+    "nombre": "Marco",
+    "apellido": "Ruiz",
+    "correo_electronico": "marco@gmail.com",
+    "cedula": "123456789",
+    "numero_celular": "+34666111111",
+    "fecha_nacimiento": "",
+    "direccion": "Calle 1, 10"
+  },
+  {
+    "id_usuario": 2,
+    "nombre": "Sof\u00eda",
+    "apellido": "L\u00f3pez",
+    "correo_electronico": "sofia@gmail.com",
+    "cedula": "987654321",
+    "numero_celular": "+34666222222",
+    "fecha_nacimiento": "",
+    "direccion": "Calle 2, 20"
+  },
+  {
+    "id_usuario": 3,
+    "nombre": "Diego",
+    "apellido": "Mora",
+    "correo_electronico": "diego@gmail.com",
+    "cedula": "555666777",
+    "numero_celular": "+34666333333",
+    "fecha_nacimiento": "",
+    "direccion": "Calle 3, 30"
+  },
+  {
+    "id_usuario": 4,
+    "nombre": "Ana",
+    "apellido": "Linares",
+    "correo_electronico": "ana@gmail.com",
+    "cedula": "444333222",
+    "numero_celular": "+34666444444",
+    "fecha_nacimiento": "",
+    "direccion": "Calle 4, 40"
+  }
+]

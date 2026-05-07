@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GYM FORTE — Acceso</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="login.css">
+  <script src="login.js" defer></script>
+</head>
+<body>
+  <div class="bg-layer">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+  </div>
+
+  <div class="card">
+    <div class="logo">
+      <div class="logo-text">GYM<span>·</span>FORTE</div>
+      <div class="logo-sub">Sistema de Gestión</div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" id="tabL" onclick="switchTab('login')">Ingresar</button>
+      <button class="tab" id="tabR" onclick="switchTab('register')">Registrarse</button>
+      <div class="tab-bar" id="tabBar"></div>
+    </div>
+
+    <div class="panel active" id="pLogin">
+      <div class="form-title">INGRESAR</div>
+      <!-- <div class="form-sub">Accede a tu cuenta de GYM FORTE.</div> -->
+      <div class="field">
+        <label class="field-label">Correo electrónico</label>
+        <input class="field-input" type="email" id="lEmail" placeholder="correo@ejemplo.com" autocomplete="email">
+        <div class="field-err" id="lEmailErr">Ingresa un correo válido</div>
+      </div>
+      <div class="field">
+        <label class="field-label">Contraseña</label>
+        <div class="field-wrap">
+          <input class="field-input" type="password" id="lPass" placeholder="••••••••" autocomplete="current-password"
+            style="padding-right:60px">
+          <button class="eye-btn" onclick="toggleVer('lPass',this)">MOSTRAR</button>
+        </div>
+        <div class="field-err" id="lPassErr">Ingresa tu contraseña</div>
+      </div>
+      <button class="btn-main" id="btnLogin" onclick="doLogin()">INGRESAR</button>
+    </div>
+
+    <div class="panel" id="pRegister">
+      <div class="form-title">REGISTRARSE</div>
+      <div class="form-sub">Crea tu cuenta en unos sencillos pasos.</div>
+
+      <div class="steps">
+        <div class="step-seg active" id="s0"></div>
+        <div class="step-seg" id="s1"></div>
+        <div class="step-seg" id="s2"></div>
+      </div>
+
+      <div id="r1">
+        <div class="field-row">
+          <div class="field">
+            <label class="field-label">Nombre *</label>
+            <input class="field-input" type="text" id="rNombre" placeholder="Carlos" autocomplete="given-name">
+            <div class="field-err" id="rNombreErr">Requerido</div>
+          </div>
+          <div class="field">
+            <label class="field-label">Apellido *</label>
+            <input class="field-input" type="text" id="rApellido" placeholder="Rodríguez" autocomplete="family-name">
+            <div class="field-err" id="rApellidoErr">Requerido</div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="field-label">Correo electrónico *</label>
+          <input class="field-input" type="email" id="rCorreo" placeholder="correo@ejemplo.com" autocomplete="email">
+          <div class="field-err" id="rCorreoErr">Ingresa un correo válido</div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label class="field-label">Cédula *</label>
+            <input class="field-input" type="text" id="rCedula" placeholder="123456789">
+            <div class="field-err" id="rCedulaErr">Requerido</div>
+          </div>
+          <div class="field">
+            <label class="field-label">Teléfono</label>
+            <input class="field-input" type="tel" id="rTel" placeholder="+34 666 000 000" autocomplete="tel">
+          </div>
+        </div>
+        <button class="btn-main" onclick="goStep(2)">CONTINUAR</button>
+      </div>
+
+      <div id="r2" style="display:none">
+        <div class="field">
+          <label class="field-label">Contraseña *</label>
+          <div class="field-wrap">
+            <input class="field-input" type="password" id="rPass" placeholder="Mín. 8 caracteres"
+              oninput="checkStr(this.value)" autocomplete="new-password" style="padding-right:60px">
+            <button class="eye-btn" onclick="toggleVer('rPass',this)">MOSTRAR</button>
+          </div>
+          <div class="strength-segs">
+            <div class="strength-seg" id="ss0"></div>
+            <div class="strength-seg" id="ss1"></div>
+            <div class="strength-seg" id="ss2"></div>
+            <div class="strength-seg" id="ss3"></div>
+          </div>
+          <div class="strength-lbl" id="strLbl">INGRESA UNA CONTRASEÑA</div>
+          <div class="field-err" id="rPassErr">Mínimo 8 caracteres</div>
+        </div>
+        <div class="field">
+          <label class="field-label">Confirmar contraseña *</label>
+          <div class="field-wrap">
+            <input class="field-input" type="password" id="rPass2" placeholder="Repite la contraseña"
+              autocomplete="new-password" style="padding-right:60px">
+            <button class="eye-btn" onclick="toggleVer('rPass2',this)">MOSTRAR</button>
+          </div>
+          <div class="field-err" id="rPass2Err">Las contraseñas no coinciden</div>
+        </div>
+        <div class="field">
+          <label class="field-label">Dirección</label>
+          <input class="field-input" type="text" id="rDir" placeholder="Calle, número, ciudad"
+            autocomplete="street-address">
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label class="field-label">Fecha de nacimiento</label>
+            <input class="field-input" type="date" id="rFecha" autocomplete="bday">
+          </div>
+          <div class="field">
+            <label class="field-label">Plan</label>
+            <div class="select-wrap">
+              <select class="field-select" id="rPlan">
+                <option value="">Seleccionar...</option>
+                <option value="basico">Básico — $450</option>
+                <option value="premium">Premium — $850</option>
+                <option value="elite">Elite — $1,200</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <button class="btn-main" onclick="goStep(3)">CONTINUAR</button>
+        <button class="btn-back" onclick="goStep(1)">← VOLVER</button>
+      </div>
+
+      <div id="r3" style="display:none">
+        <div class="field-row">
+          <div class="field">
+            <label class="field-label">Peso (kg)</label>
+            <input class="field-input" type="number" id="rPeso" placeholder="70">
+          </div>
+          <div class="field">
+            <label class="field-label">Estatura (cm)</label>
+            <input class="field-input" type="number" id="rEst" placeholder="175">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label class="field-label">Tipo de sangre</label>
+            <div class="select-wrap">
+              <select class="field-select" id="rSangre">
+                <option value="">Seleccionar...</option>
+                <option>O+</option>
+                <option>O-</option>
+                <option>A+</option>
+                <option>A-</option>
+                <option>B+</option>
+                <option>B-</option>
+                <option>AB+</option>
+                <option>AB-</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label class="field-label">Lesiones</label>
+            <input class="field-input" type="text" id="rLesion" placeholder="Ninguna">
+          </div>
+        </div>
+        <button class="btn-main" id="btnRegister" onclick="doRegister()">CREAR CUENTA</button>
+        <button class="btn-back" onclick="goStep(2)">← VOLVER</button>
+      </div>
+    </div>
+
+  </div>
+  <div class="toast" id="toast">
+    <span class="toast-icon" id="tIcon">✓</span>
+    <span id="tMsg"></span>
+  </div>
+  
+</body>
+</html>
