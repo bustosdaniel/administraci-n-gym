@@ -41,7 +41,8 @@ def guardar_usuarios():
             'peso': u.peso,
             'estatura': u.estatura,
             'tipo_sangre': u.tipo_sangre,
-            'lesiones': u.lesiones
+            'lesiones': u.lesiones,
+            'plan': getattr(u, 'plan', 'Premium')
         })
     with open(ARCHIVO_USUARIOS, 'w') as f:
         json.dump(datos, f, indent=2)
@@ -66,12 +67,11 @@ def cargar_usuarios():
                 nuevo.estatura = d.get('estatura')
                 nuevo.tipo_sangre = d.get('tipo_sangre')
                 nuevo.lesiones = d.get('lesiones')
+                nuevo.plan = d.get('plan', 'Premium')
                 usuarios.usuarios.append(nuevo)
 
-# Cargar datos al iniciar
 cargar_usuarios()
 
-# Si no hay datos, crear demo
 if len(usuarios.usuarios) == 0:
     datos_demo = [
         ("Marco", "Ruiz", "marco@gmail.com", "123456789", "+34666111111", "Calle 1, 10"),
@@ -95,14 +95,37 @@ if len(usuarios.usuarios) == 0:
         nuevo.estatura = None
         nuevo.tipo_sangre = None
         nuevo.lesiones = None
+        nuevo.plan = "Premium"
         usuarios.usuarios.append(nuevo)
     
     guardar_usuarios()
 
-# Servir HTML
 @app.route('/')
 def index():
-    return send_from_directory('interfaz', 'index.html')
+    return send_from_directory('interfaz/login', 'login.html')
+
+# Servir archivos estáticos (CSS, JS desde login/)
+@app.route('/<filename>')
+def static_files(filename):
+    return send_from_directory('interfaz/login', filename)
+
+# Rutas para admin
+@app.route('/admin/admin.html')
+def admin_page():
+    return send_from_directory('interfaz/admin', 'admin.html')
+
+@app.route('/admin/<filename>')
+def admin_static(filename):
+    return send_from_directory('interfaz/admin', filename)
+
+# Rutas para usuario/perfil
+@app.route('/usuario/perfil.html')
+def user_page():
+    return send_from_directory('interfaz/usuario', 'perfil.html')
+
+@app.route('/usuario/<filename>')
+def user_static(filename):
+    return send_from_directory('interfaz/usuario', filename)
 
 # Stats para dashboard
 @app.route('/api/dashboard/stats', methods=['GET'])
@@ -122,7 +145,7 @@ def get_miembros():
         miembros.append({
             'id': u.id_usuario,
             'nombre': f"{u.nombre} {u.apellido}",
-            'plan': 'Premium',
+            'plan': getattr(u, 'plan', 'Premium'),
             'vence': '2026-08-15',
             'estado': 'Activo'
         })
@@ -147,7 +170,8 @@ def crear_usuario():
     nuevo.estatura = data.get('estatura')
     nuevo.tipo_sangre = data.get('tipo_sangre')
     nuevo.lesiones = data.get('lesiones')
-    
+    nuevo.plan = data.get('plan', 'Premium')
+
     usuarios.usuarios.append(nuevo)
     guardar_usuarios()  # Guardar en JSON
     

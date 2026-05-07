@@ -27,7 +27,11 @@
     overflow-x: hidden;
   }
 
-  /* SIDEBAR */
+  a {
+      text-decoration: none;
+      color: inherit;
+    }
+
   .sidebar {
     width: 220px;
     min-height: 100vh;

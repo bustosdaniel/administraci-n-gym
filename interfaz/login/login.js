@@ -106,16 +106,47 @@
 
   /* REGISTRO */
   function doRegister() {
-    if (!document.getElementById('terminos').checked) {
-    toast('!', 'Debes aceptar los términos', true); return;
-    }
-  const btn = document.getElementById('btnRegister');
-  btn.textContent = 'CREANDO CUENTA...'; btn.disabled = true;
-    setTimeout(() => {
-    btn.textContent = 'CREAR CUENTA'; btn.disabled = false;
-  toast('✓', '¡Cuenta creada! Ya puedes ingresar.', false);
-      setTimeout(() => switchTab('login'), 2000);
-    }, 1800);
+    const btn = document.getElementById('btnRegister');
+    btn.textContent = 'CREANDO CUENTA...';
+    btn.disabled = true;
+
+    // Capturar datos del formulario
+    const usuario = {
+      nombre: document.getElementById('rNombre').value.trim(),
+      apellido: document.getElementById('rApellido').value.trim(),
+      correo_electronico: document.getElementById('rCorreo').value.trim(),
+      cedula: document.getElementById('rCedula').value.trim(),
+      numero_celular: document.getElementById('rTel').value.trim(),
+      fecha_nacimiento: document.getElementById('rFecha').value || '',
+      direccion: document.getElementById('rDir').value.trim(),
+      peso: document.getElementById('rPeso').value ? parseFloat(document.getElementById('rPeso').value) : null,
+      estatura: document.getElementById('rEst').value ? parseFloat(document.getElementById('rEst').value) : null,
+      tipo_sangre: document.getElementById('rSangre').value || '',
+      lesiones: document.getElementById('rLesion').value.trim() || ''
+    };
+
+    // Enviar a la API
+    fetch('/api/usuarios', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(usuario)
+    })
+    .then(r => r.json())
+    .then(data => {
+      btn.textContent = 'CREAR CUENTA';
+      btn.disabled = false;
+      if (data.success) {
+        toast('✓', '¡Cuenta creada! Ya puedes ingresar.', false);
+        setTimeout(() => switchTab('login'), 2000);
+      } else {
+        toast('!', 'Error al crear la cuenta', true);
+      }
+    })
+    .catch(err => {
+      btn.textContent = 'CREAR CUENTA';
+      btn.disabled = false;
+      toast('!', 'Error de conexión: ' + err.message, true);
+    });
   }
 
   function toast(icon, msg, isErr) {

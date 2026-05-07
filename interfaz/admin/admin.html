@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GYM FORTE</title>
 <link rel="stylesheet" href="admin.css">
-<script src="admin.js"></script>
+<script src="admin.js" defer></script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -18,7 +18,7 @@
   <nav>
     <div class="nav-section">Principal</div>
     <div class="nav-item active" onclick="setNav(this)"><span class="icon">⬛</span> Dashboard</div>
-    <div class="nav-item" onclick="setNav(this)"><span class="icon">👥</span> Miembros <span class="nav-badge">247</span></div>
+    <div class="nav-item" onclick="setNav(this)"><span class="icon">👥</span> Miembros <span class="nav-badge">-</span></div>
     <div class="nav-item" onclick="setNav(this)"><span class="icon">🗓</span> Clases</div>
     <div class="nav-item" onclick="setNav(this)"><span class="icon">💳</span> Pagos</div>
 
@@ -29,6 +29,10 @@
 
     <div class="nav-section">Sistema</div>
     <div class="nav-item" onclick="setNav(this)"><span class="icon">⚙️</span> Configuración</div>
+    <div class="nav-item"><span class="icon">
+        <a href="../login/login.html">
+          🚪</span> Cerrar sesión</div>
+    </a>
   </nav>
   <div class="sidebar-footer">
     <div class="user-info">
@@ -46,7 +50,6 @@
     <div class="page-title">GYM FORTE</div>
     <div class="page-date" id="dateDisplay"></div>
     <button class="btn btn-ghost" onclick="openModal()">+ Nuevo Miembro</button>
-    <button class="btn btn-primary">Exportar</button>
   </div>
 
   <div class="content">
@@ -81,7 +84,7 @@
       <div class="panel">
         <div class="panel-header">
           <div class="panel-title">Miembros Recientes</div>
-          <a class="panel-action" href="#">Ver todos →</a>
+          <a class="panel-action" href="#" onclick="mostrarTodosMiembros(event)">Ver todos →</a>
         </div>
         <table class="table">
           <thead>
@@ -394,6 +397,17 @@
         <div class="field">
           <label class="field-label">Lesiones o Condiciones</label>
           <input class="field-input" type="text" id="inputLesiones" placeholder="Ej. Lesión de espalda">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label class="field-label">Plan de Membresía *</label>
+          <select class="field-input" id="inputPlan">
+            <option value="">Seleccionar plan...</option>
+            <option value="Básico">Básico — $450</option>
+            <option value="Premium">Premium — $850</option>
+            <option value="Elite">Elite — $1,200</option>
+          </select>
         </div>
       </div>
     </div>
