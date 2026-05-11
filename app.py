@@ -8,13 +8,23 @@ from components.asistencia import Asistencia
 from components.clientes import Cliente
 from components.rutinas import Rutinas
 from components.sede import Sede
+
+from auth import (
+    inicializar_auth,
+    login,
+    logout,
+    validar_token,
+    registrar_credenciales_usuario,
+)
+
 import json
 import os
 
 app = Flask(__name__, static_folder='interfaz', static_url_path='')
 CORS(app)
 
-# Inicializar
+inicializar_auth()
+
 usuarios = Usuarios()
 estado_cliente = Cliente(usuarios)
 entrenadores = Entrenadores(usuarios)
@@ -70,6 +80,35 @@ def cargar_usuarios():
                 nuevo.plan = d.get('plan', 'Premium')
                 usuarios.usuarios.append(nuevo)
 
+def get_token_from_request():
+    """Extrae el token del header Authorization o del query param ?token="""
+    auth_header = request.headers.get('Authorization', '')
+    if auth_header.startswith('Bearer '):
+        return auth_header[7:]
+    return request.args.get('token', '')
+
+def requiere_auth(rol=None):
+    """
+    Decorador que protege una ruta.
+    rol='admin'   → solo admins
+    rol='usuario' → solo usuarios miembros
+    rol=None      → cualquier sesión válida
+    """
+    def decorator(fn):
+        from functools import wraps
+        @wraps(fn)
+        def wrapper(*args, **kwargs):
+            token  = get_token_from_request()
+            sesion = validar_token(token)
+            if not sesion:
+                return jsonify({'error': 'No autenticado'}), 401
+            if rol and sesion['rol'] != rol:
+                return jsonify({'error': 'Sin permisos'}), 403
+            request.sesion = sesion
+            return fn(*args, **kwargs)
+        return wrapper
+    return decorator
+
 cargar_usuarios()
 
 if len(usuarios.usuarios) == 0:
@@ -97,6 +136,7 @@ if len(usuarios.usuarios) == 0:
         nuevo.lesiones = None
         nuevo.plan = "Premium"
         usuarios.usuarios.append(nuevo)
+        registrar_credenciales_usuario(nuevo.id_usuario, correo, "password123")
     
     guardar_usuarios()
 
@@ -104,12 +144,10 @@ if len(usuarios.usuarios) == 0:
 def index():
     return send_from_directory('interfaz/login', 'login.html')
 
-# Servir archivos estáticos (CSS, JS desde login/)
 @app.route('/<filename>')
 def static_files(filename):
     return send_from_directory('interfaz/login', filename)
 
-# Rutas para admin
 @app.route('/admin/admin.html')
 def admin_page():
     return send_from_directory('interfaz/admin', 'admin.html')
@@ -118,7 +156,6 @@ def admin_page():
 def admin_static(filename):
     return send_from_directory('interfaz/admin', filename)
 
-# Rutas para usuario/perfil
 @app.route('/usuario/perfil.html')
 def user_page():
     return send_from_directory('interfaz/usuario', 'perfil.html')
@@ -127,8 +164,36 @@ def user_page():
 def user_static(filename):
     return send_from_directory('interfaz/usuario', filename)
 
+# rutas de autenticación
+
+@app.route('/api/login', methods=['POST'])
+def api_login():
+    data = request.get_json()
+    if not data:
+        return jsonify({'error': 'Cuerpo vacío'}), 400
+    correo   = data.get('correo', '').strip()
+    password = data.get('password', '').strip()
+    if not correo or not password:
+        return jsonify({'error': 'Correo y contraseña requeridos'}), 400
+    resultado = login(correo, password)
+    if resultado:
+        return jsonify(resultado), 200
+    return jsonify({'error': 'Credenciales incorrectas'}), 401
+
+@app.route('/api/logout', methods=['POST'])
+def api_logout():
+    token = get_token_from_request()
+    logout(token)
+    return jsonify({'ok': True})
+
+@app.route('/api/me', methods=['GET'])
+@requiere_auth()
+def api_me():
+    return jsonify(request.sesion)
+
 # Stats para dashboard
 @app.route('/api/dashboard/stats', methods=['GET'])
+@requiere_auth(rol='admin')  # ── NUEVO
 def get_stats():
     return jsonify({
         'miembros_activos': len(usuarios.usuarios),
@@ -137,8 +202,9 @@ def get_stats():
         'ocupacion_actual': 68
     })
 
-# Listar miembros
+# Listar miembros (primeros 10)
 @app.route('/api/miembros', methods=['GET'])
+@requiere_auth(rol='admin')  # ── NUEVO
 def get_miembros():
     miembros = []
     for u in usuarios.usuarios[:10]:
@@ -151,6 +217,48 @@ def get_miembros():
         })
     return jsonify(miembros)
 
+# Listar TODOS los miembros
+@app.route('/api/miembros-todos', methods=['GET'])
+@requiere_auth(rol='admin')  # ── NUEVO
+def get_miembros_todos():
+    miembros = []
+    for u in usuarios.usuarios:
+        miembros.append({
+            'id': u.id_usuario,
+            'nombre': f"{u.nombre} {u.apellido}",
+            'correo': u.correo_electronico,
+            'telefono': u.numero_celular,
+            'plan': getattr(u, 'plan', 'Premium'),
+            'vence': '2026-08-15',
+            'estado': 'Activo'
+        })
+    return jsonify(miembros)
+
+# perfil del usuario autenticado
+
+@app.route('/api/usuario/perfil', methods=['GET'])
+@requiere_auth(rol='usuario')
+def get_mi_perfil():
+    user_id = request.sesion['user_id']
+    for u in usuarios.usuarios:
+        if u.id_usuario == user_id:
+            return jsonify({
+                'id':               u.id_usuario,
+                'nombre':           u.nombre,
+                'apellido':         u.apellido,
+                'correo':           u.correo_electronico,
+                'cedula':           u.cedula,
+                'telefono':         u.numero_celular,
+                'fecha_nacimiento': u.fecha_nacimiento,
+                'direccion':        u.direccion,
+                'peso':             u.peso,
+                'estatura':         u.estatura,
+                'tipo_sangre':      u.tipo_sangre,
+                'lesiones':         u.lesiones,
+                'plan':             getattr(u, 'plan', 'Premium'),
+            })
+    return jsonify({'error': 'Usuario no encontrado'}), 404
+
 # Crear usuario
 @app.route('/api/usuarios', methods=['POST'])
 def crear_usuario():
@@ -161,7 +269,10 @@ def crear_usuario():
     nuevo.id_usuario = usuarios._ultimo_id
     nuevo.nombre = data.get('nombre', '')
     nuevo.apellido = data.get('apellido', '')
-    nuevo.correo_electronico = data.get('correo_electronico', '')
+    correo_raw = data.get('correo_electronico', '').strip()
+    # Corregir dominios mal escritos comunes
+    correo_raw = correo_raw.replace('@gmail.cm', '@gmail.com').replace('@hotmail.cm', '@hotmail.com').replace('@yahoo.cm', '@yahoo.com')
+    nuevo.correo_electronico = correo_raw
     nuevo.cedula = data.get('cedula', '')
     nuevo.numero_celular = data.get('numero_celular', '')
     nuevo.fecha_nacimiento = data.get('fecha_nacimiento', '')
@@ -173,8 +284,16 @@ def crear_usuario():
     nuevo.plan = data.get('plan', 'Premium')
 
     usuarios.usuarios.append(nuevo)
-    guardar_usuarios()  # Guardar en JSON
-    
+    guardar_usuarios()
+
+    # guardar credenciales
+    password = data.get('password', 'Forte2025!') # Contraseña por defecto si no se proporciona o sea creada desde admin
+    registrar_credenciales_usuario(
+        nuevo.id_usuario,
+        nuevo.correo_electronico,
+        password
+    )
+
     return jsonify({'success': True, 'id': nuevo.id_usuario}), 201
 
 if __name__ == '__main__':
