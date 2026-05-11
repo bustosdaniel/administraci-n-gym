@@ -9,6 +9,7 @@
     href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <script src="../login/auth_guard.js" data-rol="usuario"></script>
   <script src="perfil.js" defer></script>
 </head>
 
@@ -34,10 +35,9 @@
       <div class="nav-item"><span class="icon">👨‍🏫</span> Entrenadores</div>
       <div class="nav-section">Soporte</div>
       <div class="nav-item"><span class="icon">⚙️</span> Configuración</div>
-      <div class="nav-item"><span class="icon">
-        <a href="../login/login.html">
-        🚪</span> Cerrar sesión</div>
-        </a>
+      <div class="nav-item" onclick="gymLogout()">
+        <span class="icon">🚪</span> Cerrar sesión
+      </div>
     </nav>
     <div class="sidebar-footer">
       <div class="user-info">
