@@ -25,16 +25,16 @@
       <div class="nav-item active" onclick="cambiarVista(this, 'dashboard')"><span class="icon">⬛</span> Dashboard</div>
       <div class="nav-item" onclick="cambiarVista(this, 'miembros')"><span class="icon">👥</span> Miembros <span
           class="nav-badge" id="navBadgeMiembros">-</span></div>
-      <div class="nav-item" onclick="setNav(this)"><span class="icon">🗓</span> Clases</div>
-      <div class="nav-item" onclick="setNav(this)"><span class="icon">💳</span> Pagos</div>
+      <div class="nav-item" onclick="cambiarVista(this, 'clases')"><span class="icon">🗓</span> Clases</div>
+      <div class="nav-item" onclick="cambiarVista(this, 'pagos')"><span class="icon">💳</span> Pagos</div>
 
       <div class="nav-section">Operación</div>
-      <div class="nav-item" onclick="setNav(this)"><span class="icon">🏋️</span> Equipos</div>
-      <div class="nav-item" onclick="setNav(this)"><span class="icon">👤</span> Entrenadores</div>
-      <div class="nav-item" onclick="setNav(this)"><span class="icon">📊</span> Reportes</div>
+      <div class="nav-item" onclick="cambiarVista(this, 'equipos')"><span class="icon">🏋️</span> Equipos</div>
+      <div class="nav-item" onclick="cambiarVista(this, 'entrenadores')"><span class="icon">👤</span> Entrenadores</div>
+      <div class="nav-item" onclick="cambiarVista(this, 'reportes')"><span class="icon">📊</span> Reportes</div>
 
       <div class="nav-section">Sistema</div>
-      <div class="nav-item" onclick="setNav(this)"><span class="icon">⚙️</span> Configuración</div>
+      <div class="nav-item" onclick="cambiarVista(this, 'configuracion')"><span class="icon">⚙️</span> Configuración</div>
       <div class="nav-item" onclick="gymLogout()">
         <span class="icon">🚪</span> Cerrar sesión
       </div>
@@ -376,6 +376,24 @@
       </div>
 
     </div>
+
+    <!-- ═══════════════ VISTA CONFIGURACIÓN ═══════════════ -->
+    <div class="content" id="vista-configuracion" style="display:none; flex:1; min-height:calc(100vh - 61px);">
+    <!-- Tabla full width -->
+      <div class="panel" style="width:100%;">
+        <div style="overflow-x:auto;width:100%;">
+          <table class="table" style="width:100%;min-width:700px;">
+            <tbody id="tablaConfigCompleta">
+              <tr>
+                <td colspan="3" style="text-align:center;padding:30px;color:var(--muted);">Aquí se mostrarán las opciones de
+                  configuración del sistema.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
   </div>
 
   <!-- Modal nuevo miembro -->

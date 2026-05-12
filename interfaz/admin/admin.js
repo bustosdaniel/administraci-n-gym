@@ -65,6 +65,12 @@ function cambiarVista(el, vista) {
   setNav(el);
   const vistaDashboard = document.getElementById('vista-dashboard');
   const vistaMiembros = document.getElementById('vista-miembros');
+  const vistaClases = document.getElementById('vista-clases');
+  const vistaPagos = document.getElementById('vista-pagos');
+  const vistaEquipos = document.getElementById('vista-equipos');
+  const vistaEntrenadores = document.getElementById('vista-entrenadores');
+  const vistaReportes = document.getElementById('vista-reportes');
+  const vistaConfig = document.getElementById('vista-configuracion');
   const pageTitle = document.getElementById('pageTitle');
   const verTodosBtn = document.getElementById('verTodosBtn');
 
@@ -79,6 +85,36 @@ function cambiarVista(el, vista) {
     if (pageTitle) pageTitle.textContent = 'Miembros';
     if (verTodosBtn) verTodosBtn.style.display = 'none';
     cargarTodosMiembros();
+  } else if (vista === 'clases') {
+    if (vistaDashboard) vistaDashboard.style.display = 'none';
+    if (vistaMiembros) vistaMiembros.style.display = 'none';
+    if (vistaClases) vistaClases.style.display = 'block';
+    if (pageTitle) pageTitle.textContent = 'Clases';
+  } else if (vista === 'pagos') {
+    if (vistaDashboard) vistaDashboard.style.display = 'none';
+    if (vistaMiembros) vistaMiembros.style.display = 'none';
+    if (vistaPagos) vistaPagos.style.display = 'block';
+    if (pageTitle) pageTitle.textContent = 'Pagos';
+  } else if (vista === 'equipos') {
+    if (vistaDashboard) vistaDashboard.style.display = 'none';
+    if (vistaMiembros) vistaMiembros.style.display = 'none';
+    if (vistaEquipos) vistaEquipos.style.display = 'block';
+    if (pageTitle) pageTitle.textContent = 'Equipos';
+  } else if (vista === 'entrenadores') {
+    if (vistaDashboard) vistaDashboard.style.display = 'none';
+    if (vistaMiembros) vistaMiembros.style.display = 'none';
+    if (vistaEntrenadores) vistaEntrenadores.style.display = 'block';
+    if (pageTitle) pageTitle.textContent = 'Entrenadores';
+  } else if (vista === 'reportes') {
+    if (vistaDashboard) vistaDashboard.style.display = 'none';
+    if (vistaMiembros) vistaMiembros.style.display = 'none';
+    if (vistaReportes) vistaReportes.style.display = 'block';
+    if (pageTitle) pageTitle.textContent = 'Reportes';
+  } else if (vista === 'configuracion') {
+    if (vistaDashboard) vistaDashboard.style.display = 'none';
+    if (vistaMiembros) vistaMiembros.style.display = 'none';
+    if (vistaConfig) vistaConfig.style.display = 'block';
+    if (pageTitle) pageTitle.textContent = 'Configuración del sistema';
   }
 }
 
