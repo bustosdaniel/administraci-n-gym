@@ -359,6 +359,41 @@
       border: 1px solid rgba(239, 68, 68, .3);
     }
 
+    .badge-elite {
+      background: rgba(168, 85, 247, .12);
+      color: var(--purple);
+      border: 1px solid rgba(168, 85, 247, .3);
+    }
+
+    /* Temas de planes */
+    :root.plan-basico {
+      --plan-color: var(--blue);
+      --plan-bg: rgba(59, 130, 246, .12);
+      --plan-border: rgba(59, 130, 246, .3);
+    }
+
+    :root.plan-premium {
+      --plan-color: var(--accent);
+      --plan-bg: rgba(249, 115, 22, .12);
+      --plan-border: rgba(249, 115, 22, .3);
+    }
+
+    :root.plan-elite {
+      --plan-color: var(--purple);
+      --plan-bg: rgba(168, 85, 247, .12);
+      --plan-border: rgba(168, 85, 247, .3);
+    }
+
+    .hero-meta .badge {
+      background: var(--plan-bg);
+      color: var(--plan-color);
+      border: 1px solid var(--plan-border);
+    }
+
+    .membresia-card {
+      border-left: 3px solid var(--plan-color);
+    }
+
     .hero-actions {
       display: flex;
       gap: 10px;

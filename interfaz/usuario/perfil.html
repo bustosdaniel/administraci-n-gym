@@ -11,6 +11,44 @@
   <link rel="stylesheet" href="styles.css">
   <script src="../login/auth_guard.js" data-rol="usuario"></script>
   <script src="perfil.js" defer></script>
+
+  <!-- Estilos inline para los campos editables, garantizados independiente del styles.css -->
+  <style>
+    .field-input-edit {
+      width: 100%;
+      background: var(--bg3, #1c1c1c);
+      border: 1px solid var(--accent, #f97316);
+      border-radius: 3px;
+      padding: 8px 10px;
+      color: var(--text, #e5e5e5);
+      font-family: var(--sans, 'DM Sans', sans-serif);
+      font-size: .85rem;
+      outline: none;
+      margin-top: 4px;
+      box-sizing: border-box;
+    }
+
+    .field-input-edit:focus {
+      border-color: var(--accent2, #fb923c);
+      box-shadow: 0 0 0 2px rgba(249, 115, 22, .15);
+    }
+
+    /* Cuando está oculto */
+    .field-input-edit[style*="display:none"],
+    .field-input-edit[style*="display: none"] {
+      display: none !important;
+    }
+
+    /* Indicador visual de campo editable en modo edición */
+    .campo-editable-label {
+      font-family: var(--mono, 'DM Mono', monospace);
+      font-size: .55rem;
+      color: var(--accent, #f97316);
+      letter-spacing: 1px;
+      margin-left: 6px;
+      text-transform: uppercase;
+    }
+  </style>
 </head>
 
 <body>
@@ -33,6 +71,7 @@
       <div class="nav-item"><span class="icon">📋</span> Reservar Clase</div>
       <div class="nav-item"><span class="icon">📊</span> Mi Progreso</div>
       <div class="nav-item"><span class="icon">👨‍🏫</span> Entrenadores</div>
+
       <div class="nav-section">Soporte</div>
       <div class="nav-item"><span class="icon">⚙️</span> Configuración</div>
       <div class="nav-item" onclick="gymLogout()">
@@ -41,10 +80,10 @@
     </nav>
     <div class="sidebar-footer">
       <div class="user-info">
-        <div class="avatar">MR</div>
+        <div class="avatar" id="sideAvatar">??</div>
         <div>
-          <div class="user-name">Marco Ruiz</div>
-          <div class="user-role">MIEMBRO #0247</div>
+          <div class="user-name" id="sideName">—</div>
+          <div class="user-role" id="sideRole">MIEMBRO</div>
         </div>
       </div>
     </div>
@@ -63,21 +102,22 @@
     <div class="content">
       <div class="alert-bar">
         <span>⚠</span>
-        <div><strong>AVISO —</strong> Tu membresía Premium vence en <strong>25 días</strong> (31 May 2026). Renueva
-          ahora para no perder acceso.</div>
+        <div id="alertMsg"><strong>AVISO —</strong> Tu membresía vence en <strong>25 días</strong>. Renueva ahora para
+          no perder acceso.</div>
         <button class="btn btn-ghost" style="margin-left:auto;flex-shrink:0">Renovar →</button>
       </div>
 
+      <!-- HERO -->
       <div class="profile-hero" id="profileHero">
-        <div class="hero-avatar">MR</div>
+        <div class="hero-avatar" id="heroAvatar">??</div>
         <div class="hero-info">
-          <div class="hero-name">MARCO RUIZ</div>
+          <div class="hero-name" id="heroName">—</div>
           <div class="hero-meta">
             <span class="badge badge-active">● ACTIVO</span>
-            <span class="badge badge-premium">PREMIUM</span>
-            <span class="hero-tag">MIEMBRO DESDE <span>Ene 2025</span></span>
-            <span class="hero-tag">ID <span>#0247</span></span>
-            <span class="hero-tag">CÉDULA <span>123456789</span></span>
+            <span class="badge badge-premium" id="heroPlan">PREMIUM</span>
+            <span class="hero-tag">MIEMBRO DESDE <span id="heroDesde">—</span></span>
+            <span class="hero-tag">ID <span id="heroId">—</span></span>
+            <span class="hero-tag">CÉDULA <span id="heroCedula">—</span></span>
           </div>
         </div>
         <div class="hero-actions">
@@ -90,58 +130,105 @@
         </div>
       </div>
 
+      <!-- GRID PRINCIPAL -->
       <div class="grid-3">
         <div class="panel" id="panelDatos">
           <div class="panel-header">
             <div class="panel-title">Datos Personales</div>
-            <span style="font-family:var(--mono);font-size:.55rem;color:var(--muted)">Última edición: 02 May 2026</span>
+            <span style="font-family:var(--mono);font-size:.55rem;color:var(--muted)" id="ultimaEdicion">—</span>
           </div>
           <div class="panel-body">
             <div class="field-grid">
+
+              <!-- SOLO LECTURA -->
               <div class="field-item">
                 <div class="field-label">Nombre</div>
-                <div class="field-value">Marco</div>
-                <input class="field-input-edit" type="text" value="Marco" id="fNombre">
+                <div class="field-value" id="vNombre">—</div>
               </div>
               <div class="field-item">
                 <div class="field-label">Apellido</div>
-                <div class="field-value">Ruiz</div>
-                <input class="field-input-edit" type="text" value="Ruiz" id="fApellido">
-              </div>
-              <div class="field-item" style="grid-column:1/-1">
-                <div class="field-label">Correo Electrónico</div>
-                <div class="field-value">marco@gmail.com</div>
-                <input class="field-input-edit" type="email" value="marco@gmail.com" id="fCorreo">
+                <div class="field-value" id="vApellido">—</div>
               </div>
               <div class="field-item">
-                <div class="field-label">Teléfono</div>
-                <div class="field-value">+34 666 111 111</div>
-                <input class="field-input-edit" type="tel" value="+34666111111" id="fTelefono">
+                <div class="field-label">Cédula</div>
+                <div class="field-value" id="vCedula">—</div>
               </div>
               <div class="field-item">
                 <div class="field-label">Fecha de Nacimiento</div>
-                <div class="field-value">15 Mar 1993</div>
-                <input class="field-input-edit" type="date" value="1993-03-15" id="fFecha">
+                <div class="field-value" id="vFechaNac">—</div>
+              </div>
+
+              <!-- EDITABLE: Correo -->
+              <div class="field-item" style="grid-column:1/-1">
+                <div class="field-label">
+                  Correo Electrónico
+                  <span class="campo-editable-label" id="labelCorreo" style="display:none">● editable</span>
+                </div>
+                <div class="field-value" id="vCorreo">—</div>
+                <input class="field-input-edit" type="email" id="fCorreo" style="display:none"
+                  placeholder="correo@ejemplo.com">
+              </div>
+
+              <!-- EDITABLE: Teléfono -->
+              <div class="field-item">
+                <div class="field-label">
+                  Teléfono
+                  <span class="campo-editable-label" id="labelTelefono" style="display:none">● editable</span>
+                </div>
+                <div class="field-value" id="vTelefono">—</div>
+                <input class="field-input-edit" type="tel" id="fTelefono" style="display:none"
+                  placeholder="+34 666 000 000">
+              </div>
+
+              <!-- EDITABLE: Dirección -->
+              <div class="field-item" style="grid-column:1/-1">
+                <div class="field-label">
+                  Dirección
+                  <span class="campo-editable-label" id="labelDireccion" style="display:none">● editable</span>
+                </div>
+                <div class="field-value" id="vDireccion">—</div>
+                <input class="field-input-edit" type="text" id="fDireccion" style="display:none"
+                  placeholder="Calle, número, ciudad">
+              </div>
+
+              <!-- EDITABLE: Peso -->
+              <div class="field-item">
+                <div class="field-label">
+                  Peso (kg)
+                  <span class="campo-editable-label" id="labelPeso" style="display:none">● editable</span>
+                </div>
+                <div class="field-value" id="vPeso">—</div>
+                <input class="field-input-edit" type="number" id="fPeso" style="display:none" placeholder="Ej. 70"
+                  min="20" max="300">
+              </div>
+              <div class="field-item">
+                <div class="field-label">Estatura (cm)</div>
+                <div class="field-value" id="vEstatura">—</div>
+              </div>
+              <div class="field-item">
+                <div class="field-label">Tipo de Sangre</div>
+                <div class="field-value" id="vTipoSangre">—</div>
               </div>
               <div class="field-item" style="grid-column:1/-1">
-                <div class="field-label">Dirección</div>
-                <div class="field-value">Calle 1, 10</div>
-                <input class="field-input-edit" type="text" value="Calle 1, 10" id="fDireccion">
+                <div class="field-label">Lesiones / Condiciones</div>
+                <div class="field-value" id="vLesiones">Sin lesiones reportadas</div>
               </div>
+
             </div>
           </div>
         </div>
 
+        <!-- COLUMNA DERECHA -->
         <div style="display:flex;flex-direction:column;gap:16px">
           <div class="panel">
             <div class="panel-header">
               <div class="panel-title">Mi Membresía</div>
-              <span class="badge badge-premium">PREMIUM</span>
+              <span class="badge badge-premium" id="membBadge">PREMIUM</span>
             </div>
             <div class="membresia-card">
               <div class="memb-row">
                 <div class="memb-key">Plan activo</div>
-                <div class="memb-val">Premium</div>
+                <div class="memb-val" id="membPlan">Premium</div>
               </div>
               <div class="memb-row">
                 <div class="memb-key">Inicio</div>
@@ -163,7 +250,7 @@
               </div>
               <div class="memb-row" style="margin-top:4px">
                 <div class="memb-key">Precio mensual</div>
-                <div class="memb-val" style="color:var(--green)">$850 / mes</div>
+                <div class="memb-val" style="color:var(--green)" id="membPrecio">$850 / mes</div>
               </div>
             </div>
           </div>
@@ -195,10 +282,10 @@
               </div>
             </div>
           </div>
-
         </div>
       </div>
 
+      <!-- GRID CLASES + RUTINA -->
       <div class="grid-2">
         <div class="panel">
           <div class="panel-header">
@@ -233,7 +320,7 @@
             <span class="badge badge-pending">Lista espera</span>
           </div>
           <div class="clase-item">
-            <div class="clase-dot" style="background:var(--purple)"></div>
+            <div class="clase-dot" style="background:purple"></div>
             <div class="clase-info">
               <div class="clase-nombre">Zumba Nocturna</div>
               <div class="clase-sub">Entrenadora: Andrea R. — Sala C</div>
@@ -287,6 +374,7 @@
         </div>
       </div>
 
+      <!-- GRID SALUD + PAGOS -->
       <div class="grid-2">
         <div class="panel">
           <div class="panel-header">
@@ -295,26 +383,26 @@
           </div>
           <div class="salud-grid">
             <div class="salud-item">
-              <div class="salud-val">78<span class="salud-unit"> kg</span></div>
+              <div class="salud-val" id="saludPeso">—<span class="salud-unit"> kg</span></div>
               <div class="salud-key">PESO</div>
             </div>
             <div class="salud-item">
-              <div class="salud-val">182<span class="salud-unit"> cm</span></div>
+              <div class="salud-val" id="saludEstatura">—<span class="salud-unit"> cm</span></div>
               <div class="salud-key">ESTATURA</div>
             </div>
             <div class="salud-item">
-              <div class="salud-val">23.5</div>
+              <div class="salud-val" id="saludImc">—</div>
               <div class="salud-key">IMC</div>
             </div>
             <div class="salud-item">
-              <div class="salud-val" style="color:var(--red)">O+</div>
+              <div class="salud-val" id="saludSangre" style="color:var(--red)">—</div>
               <div class="salud-key">TIPO SANGRE</div>
             </div>
             <div class="salud-item" style="grid-column:1/-1">
               <div
                 style="font-family:var(--mono);font-size:.6rem;color:var(--muted);letter-spacing:1px;margin-bottom:6px">
                 LESIONES / CONDICIONES</div>
-              <div style="font-size:.8rem;color:var(--muted)">Sin lesiones reportadas</div>
+              <div style="font-size:.8rem;color:var(--muted)" id="saludLesiones">Sin lesiones reportadas</div>
             </div>
           </div>
         </div>
@@ -358,6 +446,7 @@
           </div>
         </div>
       </div>
+
     </div>
   </div>
 
@@ -367,4 +456,5 @@
   </div>
 
 </body>
+
 </html>
