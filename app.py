@@ -259,6 +259,47 @@ def get_mi_perfil():
             })
     return jsonify({'error': 'Usuario no encontrado'}), 404
 
+@app.route('/api/usuario/perfil', methods=['PUT'])
+@requiere_auth(rol='usuario')
+def actualizar_mi_perfil():
+    """Actualizar solo los campos editables del perfil del usuario actual.
+    Campos NO editables: nombre, apellido, cedula, tipo_sangre, plan, estatura.
+    """
+    user_id = request.sesion['user_id']
+    data = request.get_json()
+    if not data:
+        return jsonify({'error': 'Sin datos'}), 400
+
+    for u in usuarios.usuarios:
+        if u.id_usuario == user_id:
+            # Solo actualizar campos permitidos que vengan en el payload
+            if 'correo' in data and data['correo']:
+                correo = data['correo'].strip()
+                correo = correo.replace('@gmail.cm','@gmail.com').replace('@hotmail.cm','@hotmail.com')
+                u.correo_electronico = correo
+                # Actualizar también en credenciales.json
+                from auth import _cargar_credenciales, _guardar_credenciales
+                creds = _cargar_credenciales()
+                for cu in creds['usuarios']:
+                    if cu['id'] == user_id:
+                        cu['correo'] = correo.lower()
+                        break
+                _guardar_credenciales(creds)
+            if 'telefono' in data and data['telefono']:
+                u.numero_celular = data['telefono']
+            if 'direccion' in data and data['direccion']:
+                u.direccion = data['direccion']
+            if 'peso' in data and data['peso'] is not None and data['peso'] != '':
+                u.peso = data['peso']
+            # lesiones puede ser string vacío (borrar)
+            if 'lesiones' in data:
+                u.lesiones = data['lesiones']
+
+            guardar_usuarios()
+            return jsonify({'ok': True, 'mensaje': 'Perfil actualizado correctamente'}), 200
+
+    return jsonify({'error': 'Usuario no encontrado'}), 404
+
 # Crear usuario
 @app.route('/api/usuarios', methods=['POST'])
 def crear_usuario():
@@ -287,7 +328,7 @@ def crear_usuario():
     guardar_usuarios()
 
     # guardar credenciales
-    password = data.get('password', 'Forte2025!') # Contraseña por defecto si no se proporciona o sea creada desde admin
+    password = data.get('password', 'gym123') # Contraseña por defecto si no se proporciona o sea creada desde admin
     registrar_credenciales_usuario(
         nuevo.id_usuario,
         nuevo.correo_electronico,
