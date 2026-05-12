@@ -495,6 +495,86 @@
       border-color: var(--accent);
     }
 
+    .field-input-edit {
+      width: 100%;
+      background: var(--bg3, #1c1c1c);
+      border: 1px solid var(--accent, #f97316);
+      border-radius: 3px;
+      padding: 8px 10px;
+      color: var(--text, #e5e5e5);
+      font-family: var(--sans, 'DM Sans', sans-serif);
+      font-size: .85rem;
+      outline: none;
+      margin-top: 4px;
+      box-sizing: border-box;
+    }
+
+    .field-input-edit:focus {
+      border-color: var(--accent2, #fb923c);
+      box-shadow: 0 0 0 2px rgba(249, 115, 22, .15);
+    }
+
+    .field-input-edit[style*="display:none"],
+    .field-input-edit[style*="display: none"] {
+      display: none !important;
+    }
+
+    .campo-editable-label {
+      font-family: var(--mono, 'DM Mono', monospace);
+      font-size: .55rem;
+      color: var(--accent, #f97316);
+      letter-spacing: 1px;
+      margin-left: 6px;
+      text-transform: uppercase;
+    }
+
+    .edit-input {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 12px;
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: .82rem;
+      outline: none;
+      transition: border .15s;
+    }
+
+
+  /* PANEL */
+  .panel {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    animation: fadeUp .5s ease .25s both;
+  }
+  .panel-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .panel-title {
+    font-family: var(--mono);
+    font-size: .7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+  .panel-action {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: .62rem;
+    color: var(--accent);
+    cursor: pointer;
+    text-decoration: none;
+    letter-spacing: 1px;
+  }
+  .panel-action:hover { color: var(--accent2); }
+
     /* ─── MEMBRESÍA ─── */
     .membresia-card {
       padding: 20px;

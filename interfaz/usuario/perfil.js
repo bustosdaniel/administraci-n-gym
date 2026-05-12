@@ -94,6 +94,83 @@ async function cargarPerfil() {
 
     aplicarTema(u.plan);
 
+    //Cambiar Vistas
+    function cambiarVista(el, vista) { 
+      setNav(el);
+      const vistaPerfil = document.getElementById('vista-perfil');
+      const vistaClases = document.getElementById('vista-clases');
+      const vistaRutinas = document.getElementById('vista-rutinas');
+      const vistaPagos = document.getElementById('vista-pagos');
+      const vistaSalud = document.getElementById('vista-salud');
+      const vistaEntrenadores = document.getElementById('vista-entrenadores');
+      const vistaConfiguracion = document.getElementById('vista-configuracion');
+      const pageTitle = document.getElementById('pageTitle');
+
+      if (vista === 'perfil') {
+        if (vistaPerfil) vistaPerfil.style.display = 'block';
+        if (vistaClases) vistaClases.style.display = 'none';
+        if (vistaRutinas) vistaRutinas.style.display = 'none';
+        if (vistaPagos) vistaPagos.style.display = 'none';
+        if (vistaSalud) vistaSalud.style.display = 'none';
+        if (vistaEntrenadores) vistaEntrenadores.style.display = 'none';
+      } else if (vista === 'clases') {
+        if (vistaPerfil) vistaPerfil.style.display = 'none';
+        if (vistaClases) vistaClases.style.display = 'block';
+        if (vistaRutinas) vistaRutinas.style.display = 'none';
+        if (vistaPagos) vistaPagos.style.display = 'none';
+        if (vistaSalud) vistaSalud.style.display = 'none';
+        if (vistaEntrenadores) vistaEntrenadores.style.display = 'none';
+      } else if (vista === 'rutinas') {
+        if (vistaPerfil) vistaPerfil.style.display = 'none';
+        if (vistaClases) vistaClases.style.display = 'none';
+        if (vistaRutinas) vistaRutinas.style.display = 'block';
+        if (vistaPagos) vistaPagos.style.display = 'none';
+        if (vistaSalud) vistaSalud.style.display = 'none';
+        if (vistaEntrenadores) vistaEntrenadores.style.display = 'none';
+      } else if (vista === 'pagos') {
+        if (vistaPerfil) vistaPerfil.style.display = 'none';
+        if (vistaClases) vistaClases.style.display = 'none';
+        if (vistaRutinas) vistaRutinas.style.display = 'none';
+        if (vistaPagos) vistaPagos.style.display = 'block';
+        if (vistaSalud) vistaSalud.style.display = 'none';
+        if (vistaEntrenadores) vistaEntrenadores.style.display = 'none';
+      } else if (vista === 'salud') {
+        if (vistaPerfil) vistaPerfil.style.display = 'none';
+        if (vistaClases) vistaClases.style.display = 'none';
+        if (vistaRutinas) vistaRutinas.style.display = 'none';
+        if (vistaPagos) vistaPagos.style.display = 'none';
+        if (vistaSalud) vistaSalud.style.display = 'block';
+        if (vistaEntrenadores) vistaEntrenadores.style.display = 'none';
+      } else if (vista === 'entrenadores') {
+        if (vistaPerfil) vistaPerfil.style.display = 'none';
+        if (vistaClases) vistaClases.style.display = 'none';
+        if (vistaRutinas) vistaRutinas.style.display = 'none';
+        if (vistaPagos) vistaPagos.style.display = 'none';
+        if (vistaSalud) vistaSalud.style.display = 'none';
+        if (vistaEntrenadores) vistaEntrenadores.style.display = 'block';
+      } else if (vista === 'configuracion') {
+        if (vistaPerfil) vistaPerfil.style.display = 'none';
+        if (vistaClases) vistaClases.style.display = 'none';
+        if (vistaRutinas) vistaRutinas.style.display = 'none';
+        if (vistaPagos) vistaPagos.style.display = 'none';
+        if (vistaSalud) vistaSalud.style.display = 'none';
+        if (vistaEntrenadores) vistaEntrenadores.style.display = 'none';
+        if (vistaConfiguracion) vistaConfiguracion.style.display = 'block';
+      }
+
+       // Actualizar título de la página
+       if (pageTitle) {
+         if (vista === 'perfil') pageTitle.textContent = 'Mi Perfil';
+         else if (vista === 'clases') pageTitle.textContent = 'Mis Clases';
+         else if (vista === 'rutinas') pageTitle.textContent = 'Mi Rutina';
+         else if (vista === 'pagos') pageTitle.textContent = 'Mis Pagos';
+         else if (vista === 'salud') pageTitle.textContent = 'Mi Salud';
+         else if (vista === 'entrenadores') pageTitle.textContent = 'Mis Entrenadores';
+         else if (vista === 'configuracion') pageTitle.textContent = 'Configuración';
+       }
+      
+    }
+
     // ── Hero ─────────────────────────────────────────
     setText('heroAvatar', iniciales);
     setText('heroName', nombreCompleto);
@@ -142,6 +219,11 @@ async function cargarPerfil() {
     setText('vDireccion', u.direccion || '—');
     const fDireccion = document.getElementById('fDireccion');
     if (fDireccion) fDireccion.value = u.direccion || '';
+
+    // Lesiones
+    setText('vLesiones', u.lesiones || 'Sin lesiones reportadas');
+    const fLesiones = document.getElementById('fLesiones');
+    if (fLesiones) fLesiones.value = u.lesiones || ''; 
 
     // ── Panel Salud ───────────────────────────────────
     setHtml('saludPeso', (u.peso || '—') + '<span class="salud-unit"> kg</span>');

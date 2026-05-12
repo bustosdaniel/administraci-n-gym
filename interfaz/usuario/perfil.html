@@ -12,43 +12,6 @@
   <script src="../login/auth_guard.js" data-rol="usuario"></script>
   <script src="perfil.js" defer></script>
 
-  <!-- Estilos inline para los campos editables, garantizados independiente del styles.css -->
-  <style>
-    .field-input-edit {
-      width: 100%;
-      background: var(--bg3, #1c1c1c);
-      border: 1px solid var(--accent, #f97316);
-      border-radius: 3px;
-      padding: 8px 10px;
-      color: var(--text, #e5e5e5);
-      font-family: var(--sans, 'DM Sans', sans-serif);
-      font-size: .85rem;
-      outline: none;
-      margin-top: 4px;
-      box-sizing: border-box;
-    }
-
-    .field-input-edit:focus {
-      border-color: var(--accent2, #fb923c);
-      box-shadow: 0 0 0 2px rgba(249, 115, 22, .15);
-    }
-
-    /* Cuando está oculto */
-    .field-input-edit[style*="display:none"],
-    .field-input-edit[style*="display: none"] {
-      display: none !important;
-    }
-
-    /* Indicador visual de campo editable en modo edición */
-    .campo-editable-label {
-      font-family: var(--mono, 'DM Mono', monospace);
-      font-size: .55rem;
-      color: var(--accent, #f97316);
-      letter-spacing: 1px;
-      margin-left: 6px;
-      text-transform: uppercase;
-    }
-  </style>
 </head>
 
 <body>
@@ -60,12 +23,12 @@
     </div>
     <nav>
       <div class="nav-section">Mi cuenta</div>
-      <div class="nav-item active"><span class="icon">👤</span> Mi Perfil</div>
-      <div class="nav-item"><span class="icon">🗓</span> Mis Clases</div>
-      <div class="nav-item"><span class="icon">🏋️</span> Mi Rutina</div>
-      <div class="nav-item"><span class="icon">💳</span> Mis Pagos</div>
-      <div class="nav-item"><span class="icon">❤️</span> Mi Salud</div>
-      <div class="nav-item"><span class="icon">👨‍🏫</span> Mis Entrenadores</div>
+      <div class="nav-item active" onclick="cambiarVista(this, 'perfil')"><span class="icon">👤</span> Mi Perfil</div>
+      <div class="nav-item" onclick="cambiarVista(this, 'clases')"><span class="icon">🗓</span> Mis Clases</div>
+      <div class="nav-item" onclick="cambiarVista(this, 'rutinas')"><span class="icon">🏋️</span> Mi Rutina</div>
+      <div class="nav-item" onclick="cambiarVista(this, 'pagos')"><span class="icon">💳</span> Mis Pagos</div>
+      <div class="nav-item" onclick="cambiarVista(this, 'salud')"><span class="icon">❤️</span> Mi Salud</div>
+      <div class="nav-item" onclick="cambiarVista(this, 'entrenadores')"><span class="icon">👨‍🏫</span> Mis Entrenadores</div>
 
       <div class="nav-section">Gimnasio</div>
       <div class="nav-item"><span class="icon">📋</span> Reservar Clase</div>
@@ -73,7 +36,7 @@
       <div class="nav-item"><span class="icon">👨‍🏫</span> Entrenadores</div>
 
       <div class="nav-section">Soporte</div>
-      <div class="nav-item"><span class="icon">⚙️</span> Configuración</div>
+      <div class="nav-item" onclick="cambiarVista(this, 'configuracion')"><span class="icon">⚙️</span> Configuración</div>
       <div class="nav-item" onclick="gymLogout()">
         <span class="icon">🚪</span> Cerrar sesión
       </div>
@@ -102,8 +65,9 @@
     <div class="content">
       <div class="alert-bar">
         <span>⚠</span>
-        <div id="alertMsg"><strong>AVISO —</strong> Tu membresía vence en <strong>25 días</strong>. Renueva ahora para
-          no perder acceso.</div>
+        <div id="alertMsg">
+          <strong>AVISO —</strong> Tu membresía vence en <strong>25 días</strong>. Renueva ahora parano perder acceso.
+        </div>
         <button class="btn btn-ghost" style="margin-left:auto;flex-shrink:0">Renovar →</button>
       </div>
 
@@ -159,14 +123,13 @@
               </div>
 
               <!-- EDITABLE: Correo -->
-              <div class="field-item" style="grid-column:1/-1">
+              <div class="field-item" >
                 <div class="field-label">
                   Correo Electrónico
                   <span class="campo-editable-label" id="labelCorreo" style="display:none">● editable</span>
                 </div>
                 <div class="field-value" id="vCorreo">—</div>
-                <input class="field-input-edit" type="email" id="fCorreo" style="display:none"
-                  placeholder="correo@ejemplo.com">
+                <input type="email" id="fCorreo" class="edit-input" style="display: none;" />
               </div>
 
               <!-- EDITABLE: Teléfono -->
@@ -176,19 +139,17 @@
                   <span class="campo-editable-label" id="labelTelefono" style="display:none">● editable</span>
                 </div>
                 <div class="field-value" id="vTelefono">—</div>
-                <input class="field-input-edit" type="tel" id="fTelefono" style="display:none"
-                  placeholder="+34 666 000 000">
+                <input type="tel" id="fTelefono" class="edit-input" style="display: none;" />
               </div>
 
               <!-- EDITABLE: Dirección -->
-              <div class="field-item" style="grid-column:1/-1">
+              <div class="field-item" >
                 <div class="field-label">
                   Dirección
                   <span class="campo-editable-label" id="labelDireccion" style="display:none">● editable</span>
                 </div>
                 <div class="field-value" id="vDireccion">—</div>
-                <input class="field-input-edit" type="text" id="fDireccion" style="display:none"
-                  placeholder="Calle, número, ciudad">
+                <input type="text" id="fDireccion" class="edit-input" style="display: none;" />
               </div>
 
               <!-- EDITABLE: Peso -->
@@ -198,8 +159,7 @@
                   <span class="campo-editable-label" id="labelPeso" style="display:none">● editable</span>
                 </div>
                 <div class="field-value" id="vPeso">—</div>
-                <input class="field-input-edit" type="number" id="fPeso" style="display:none" placeholder="Ej. 70"
-                  min="20" max="300">
+                <input type="number" id="fPeso" class="edit-input" style="display: none;" min="20" max="300" />
               </div>
               <div class="field-item">
                 <div class="field-label">Estatura (cm)</div>
@@ -209,9 +169,13 @@
                 <div class="field-label">Tipo de Sangre</div>
                 <div class="field-value" id="vTipoSangre">—</div>
               </div>
-              <div class="field-item" style="grid-column:1/-1">
-                <div class="field-label">Lesiones / Condiciones</div>
+              <div class="field-item">
+                <div class="field-label">
+                  Lesiones / Condiciones
+                  <span class="campo-editable-label" id="labelLesiones" style="display:none">● editable</span>
+                </div>
                 <div class="field-value" id="vLesiones">Sin lesiones reportadas</div>
+                <input type="text" id="fLesiones" class="edit-input" style="display: none;" />
               </div>
 
             </div>
@@ -446,8 +410,24 @@
           </div>
         </div>
       </div>
-
     </div>
+
+    <div class="content" id="vista-configuracion" style="display:none; flex:1; min-height:calc(100vh - 61px);">
+      <!-- Tabla full width -->
+      <div class="panel" style="width:100%;">
+        <div style="overflow-x:auto;width:100%;">
+          <table class="table" style="width:100%;min-width:700px;">
+            <tbody id="tablaConfigCompleta">
+              <tr>
+                <td colspan="3" style="text-align:center;padding:30px;color:var(--muted);">Aquí se mostrarán las opciones de
+                  configuración del sistema.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    
   </div>
 
   <div class="toast" id="toast">
