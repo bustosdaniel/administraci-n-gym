@@ -150,21 +150,6 @@
     "plan": "B\u00e1sico"
   },
   {
-    "id_usuario": 11,
-    "nombre": "Prueba",
-    "apellido": "Admin",
-    "correo_electronico": "prueba@admin.com",
-    "cedula": "123456789",
-    "numero_celular": "+34666000000",
-    "fecha_nacimiento": "2000-01-01",
-    "direccion": "Calle Test",
-    "peso": 80,
-    "estatura": 180,
-    "tipo_sangre": null,
-    "lesiones": null,
-    "plan": "Elite"
-  },
-  {
     "id_usuario": 12,
     "nombre": "Neifer",
     "apellido": "Bustos",
@@ -270,42 +255,12 @@
     "plan": "elite"
   },
   {
-    "id_usuario": 19,
-    "nombre": "jaime",
-    "apellido": "garzon",
-    "correo_electronico": "jaime@gmail.com",
-    "cedula": "1070916216",
-    "numero_celular": "3115148106",
-    "fecha_nacimiento": "2011-12-12",
-    "direccion": "Calle 22 #1-64 sur",
-    "peso": null,
-    "estatura": null,
-    "tipo_sangre": "AB-",
-    "lesiones": "ninguna",
-    "plan": "basico"
-  },
-  {
-    "id_usuario": 20,
-    "nombre": "Laura",
-    "apellido": "Posada",
-    "correo_electronico": "laura@gmail.com",
-    "cedula": "10067544653",
-    "numero_celular": "3889553412",
-    "fecha_nacimiento": "2004-04-29",
-    "direccion": "av jimenez",
-    "peso": "62",
-    "estatura": null,
-    "tipo_sangre": "A+",
-    "lesiones": "Lesion de pierna",
-    "plan": "elite"
-  },
-  {
     "id_usuario": 21,
     "nombre": "Sofia",
     "apellido": "Garzon",
     "correo_electronico": "sofia@gmail.com",
     "cedula": "1080928256",
-    "numero_celular": "3013445824",
+    "numero_celular": "3222311636",
     "fecha_nacimiento": "2006-09-21",
     "direccion": "av olaya calle 43 #1-65",
     "peso": "65",
@@ -328,5 +283,20 @@
     "tipo_sangre": "B-",
     "lesiones": "Lesion de espalda",
     "plan": "B\u00e1sico"
+  },
+  {
+    "id_usuario": 23,
+    "nombre": "Carlos",
+    "apellido": "Paqueta",
+    "correo_electronico": "carlitos@gmail.com",
+    "cedula": "8546557",
+    "numero_celular": "3554668214",
+    "fecha_nacimiento": "1998-01-01",
+    "direccion": "Calle 22 #1-63",
+    "peso": "70",
+    "estatura": 180,
+    "tipo_sangre": "A-",
+    "lesiones": "Ninguna",
+    "plan": "premium"
   }
 ]

@@ -40,18 +40,6 @@
       "rol": "usuario"
     },
     {
-      "id": 19,
-      "correo": "jaime@gmail.com",
-      "password_hash": "88e2e6cd2f993bfe495d0955dfcfc6297142ae2501a9c9b1434fde0e41837466",
-      "rol": "usuario"
-    },
-    {
-      "id": 20,
-      "correo": "laura@gmail.com",
-      "password_hash": "3a123ec9968293bd2ccee7d2e8dd016341f1e38e7b5face87813c0eac86bacea",
-      "rol": "usuario"
-    },
-    {
       "id": 21,
       "correo": "sofia@gmail.com",
       "password_hash": "e87a83e1b562d18046eada24545307fe66f5f379d74225e5a5ec4d063c857c26",
@@ -61,6 +49,12 @@
       "id": 22,
       "correo": "sara@gmail.com",
       "password_hash": "6feda8bf94fb8a974abada66419ab2962729a96edde574e251bad0a8bfc5fb07",
+      "rol": "usuario"
+    },
+    {
+      "id": 23,
+      "correo": "carlitos@gmail.com",
+      "password_hash": "9e8499f37fe199da614bf45a1eff123670691923b2ff70dda217f9156a07dadd",
       "rol": "usuario"
     }
   ]
