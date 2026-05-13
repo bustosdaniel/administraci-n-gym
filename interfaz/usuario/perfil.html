@@ -31,9 +31,9 @@
       <div class="nav-item" onclick="cambiarVista(this, 'entrenadores')"><span class="icon">👨‍🏫</span> Mis Entrenadores</div>
 
       <div class="nav-section">Gimnasio</div>
-      <div class="nav-item"><span class="icon">📋</span> Reservar Clase</div>
-      <div class="nav-item"><span class="icon">📊</span> Mi Progreso</div>
-      <div class="nav-item"><span class="icon">👨‍🏫</span> Entrenadores</div>
+      <div class="nav-item" onclick="cambiarVista(this, 'reservar')"><span class="icon">📋</span> Reservar Clase</div>
+      <div class="nav-item" onclick="cambiarVista(this, 'progreso')"><span class="icon">📊</span> Mi Progreso</div>
+      <div class="nav-item" onclick="cambiarVista(this, 'todos-entrenadores')"><span class="icon">👨‍🏫</span> Entrenadores</div>
 
       <div class="nav-section">Soporte</div>
       <div class="nav-item" onclick="cambiarVista(this, 'configuracion')"><span class="icon">⚙️</span> Configuración</div>
@@ -62,7 +62,7 @@
         cambios</button>
     </div>
 
-    <div class="content">
+    <div class="content" id="vista-perfil">
       <div class="alert-bar">
         <span>⚠</span>
         <div id="alertMsg">
@@ -412,6 +412,102 @@
       </div>
     </div>
 
+    <!-- ═══════════════ VISTA CLASES ═══════════════ -->
+    <div class="content" id="vista-clases" style="display:none; flex:1; min-height:calc(100vh - 61px);">
+      <div class="panel" style="width:100%;">
+        <div class="panel-header">
+          <div class="panel-title">Mis Clases</div>
+        </div>
+        <div style="padding:40px;text-align:center;color:var(--muted);">
+          <p>Aquí se mostrarán tus clases reservadas</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ VISTA RUTINAS ═══════════════ -->
+    <div class="content" id="vista-rutinas" style="display:none; flex:1; min-height:calc(100vh - 61px);">
+      <div class="panel" style="width:100%;">
+        <div class="panel-header">
+          <div class="panel-title">Mi Rutina</div>
+        </div>
+        <div style="padding:40px;text-align:center;color:var(--muted);">
+          <p>Aquí se mostrará tu rutina de entrenamiento</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ VISTA PAGOS ═══════════════ -->
+    <div class="content" id="vista-pagos" style="display:none; flex:1; min-height:calc(100vh - 61px);">
+      <div class="panel" style="width:100%;">
+        <div class="panel-header">
+          <div class="panel-title">Mis Pagos</div>
+        </div>
+        <div style="padding:40px;text-align:center;color:var(--muted);">
+          <p>Aquí se mostrarán tus facturas y pagos</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ VISTA SALUD ═══════════════ -->
+    <div class="content" id="vista-salud" style="display:none; flex:1; min-height:calc(100vh - 61px);">
+      <div class="panel" style="width:100%;">
+        <div class="panel-header">
+          <div class="panel-title">Mi Salud</div>
+        </div>
+        <div style="padding:40px;text-align:center;color:var(--muted);">
+          <p>Aquí se mostrará tu información de salud y métricas</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ VISTA ENTRENADORES ═══════════════ -->
+    <div class="content" id="vista-entrenadores" style="display:none; flex:1; min-height:calc(100vh - 61px);">
+      <div class="panel" style="width:100%;">
+        <div class="panel-header">
+          <div class="panel-title">Mis Entrenadores</div>
+        </div>
+        <div style="padding:40px;text-align:center;color:var(--muted);">
+          <p>Aquí se mostrarán tus entrenadores asignados</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ VISTA RESERVAR CLASES ═══════════════ -->
+    <div class="content" id="vista-reservar" style="display:none; flex:1; min-height:calc(100vh - 61px);">
+      <div class="panel" style="width:100%;">
+        <div class="panel-header">
+          <div class="panel-title">Reservar Clase</div>
+        </div>
+        <div style="padding:40px;text-align:center;color:var(--muted);">
+          <p>Aquí podrás reservar nuevas clases</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ VISTA PROGRESO ═══════════════ -->
+    <div class="content" id="vista-progreso" style="display:none; flex:1; min-height:calc(100vh - 61px);">
+      <div class="panel" style="width:100%;">
+        <div class="panel-header">
+          <div class="panel-title">Mi Progreso</div>
+        </div>
+        <div style="padding:40px;text-align:center;color:var(--muted);">
+          <p>Aquí se mostrará tu progreso en el gimnasio</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ VISTA TODOS LOS ENTRENADORES ═══════════════ -->
+    <div class="content" id="vista-todos-entrenadores" style="display:none; flex:1; min-height:calc(100vh - 61px);">
+      <div class="panel" style="width:100%;">
+        <div class="panel-header">
+          <div class="panel-title">Entrenadores del Gimnasio</div>
+        </div>
+        <div style="padding:40px;text-align:center;color:var(--muted);">
+          <p>Aquí se mostrarán todos los entrenadores disponibles</p>
+        </div>
+      </div>
+    </div>
+
     <div class="content" id="vista-configuracion" style="display:none; flex:1; min-height:calc(100vh - 61px);">
       <!-- Tabla full width -->
       <div class="panel" style="width:100%;">
@@ -427,7 +523,7 @@
         </div>
       </div>
     </div>
-    
+
   </div>
 
   <div class="toast" id="toast">

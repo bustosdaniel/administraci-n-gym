@@ -52,6 +52,66 @@ function getClasePlan(plan) {
   return 'premium';
 }
 
+// ── Sistema de vistas ─────────────────────────────────
+function cambiarVista(el, vista) {
+  // Cambiar nav-item activo
+  document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+  if (el) el.classList.add('active');
+
+  // Ocultar todas las vistas
+  const vistas = [
+    'vista-perfil',
+    'vista-clases',
+    'vista-rutinas',
+    'vista-pagos',
+    'vista-salud',
+    'vista-entrenadores',
+    'vista-reservar',
+    'vista-progreso',
+    'vista-todos-entrenadores',
+    'vista-configuracion'
+  ];
+
+  vistas.forEach(id => {
+    const elem = document.getElementById(id);
+    if (elem) elem.style.display = 'none';
+  });
+
+  // Mostrar la vista seleccionada
+  const vistaElement = document.getElementById('vista-' + vista);
+  if (vistaElement) vistaElement.style.display = 'block';
+
+  // Actualizar breadcrumb
+  const breadcrumbSpan = document.querySelector('.breadcrumb span');
+  const vistasTitulos = {
+    'perfil': 'MI PERFIL',
+    'clases': 'MIS CLASES',
+    'rutinas': 'MI RUTINA',
+    'pagos': 'MIS PAGOS',
+    'salud': 'MI SALUD',
+    'entrenadores': 'MIS ENTRENADORES',
+    'reservar': 'RESERVAR CLASE',
+    'progreso': 'MI PROGRESO',
+    'todos-entrenadores': 'ENTRENADORES',
+    'configuracion': 'CONFIGURACIÓN'
+  };
+
+  if (breadcrumbSpan) {
+    breadcrumbSpan.textContent = vistasTitulos[vista] || 'PORTAL';
+  }
+
+  // Ocultar botón de editar en vistas que no son perfil
+  const editBtn = document.getElementById('editBtn');
+  const saveBtn = document.getElementById('saveBtn');
+  if (vista === 'perfil') {
+    if (editBtn) editBtn.style.display = '';
+    if (saveBtn) saveBtn.style.display = 'none';
+  } else {
+    if (editBtn) editBtn.style.display = 'none';
+    if (saveBtn) saveBtn.style.display = 'none';
+  }
+}
+
 function aplicarTema(plan) {
   const root = document.documentElement;
   root.classList.remove('plan-basico', 'plan-premium', 'plan-elite');
@@ -59,6 +119,13 @@ function aplicarTema(plan) {
   if (p === 'básico' || p === 'basico') root.classList.add('plan-basico');
   else if (p === 'elite') root.classList.add('plan-elite');
   else root.classList.add('plan-premium');
+}
+
+// Devuelve un color de avatar determinístico basado en el id de usuario
+function getAvatarColor(userId) {
+  const colors = ['#f97316', '#22c55e', '#3b82f6', '#a855f7', '#eab308', '#ef4444', '#06b6d4', '#f43f5e'];
+  const idNum = parseInt(userId, 10) || 0;
+  return colors[idNum % colors.length];
 }
 
 // ══════════════════════════════════════════════════════
@@ -157,7 +224,6 @@ async function cargarPerfil() {
         if (vistaEntrenadores) vistaEntrenadores.style.display = 'none';
         if (vistaConfiguracion) vistaConfiguracion.style.display = 'block';
       }
-
        // Actualizar título de la página
        if (pageTitle) {
          if (vista === 'perfil') pageTitle.textContent = 'Mi Perfil';
@@ -171,8 +237,13 @@ async function cargarPerfil() {
       
     }
 
-    // ── Hero ─────────────────────────────────────────
+    // ── Avatar
     setText('heroAvatar', iniciales);
+    const heroAvatarEl = document.getElementById('heroAvatar');
+    if (heroAvatarEl) {
+      heroAvatarEl.style.backgroundColor = getAvatarColor(u.id);
+      heroAvatarEl.style.color = '#ffffff';
+    }
     setText('heroName', nombreCompleto);
     setText('heroId', '#' + String(u.id).padStart(4, '0'));
     setText('heroCedula', u.cedula);
@@ -185,6 +256,11 @@ async function cargarPerfil() {
 
     // ── Sidebar ───────────────────────────────────────
     setText('sideAvatar', iniciales);
+    const sideAvatarEl = document.querySelector('.sidebar-footer .avatar') || document.getElementById('sideAvatar');
+    if (sideAvatarEl) {
+      sideAvatarEl.style.backgroundColor = getAvatarColor(u.id);
+      sideAvatarEl.style.color = '#ffffff';
+    }
     setText('sideName', `${nombre} ${apellido}`.trim());
     setText('sideRole', 'MIEMBRO #' + String(u.id).padStart(4, '0'));
 
