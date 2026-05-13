@@ -385,11 +385,120 @@
           <table class="table" style="width:100%;min-width:700px;">
             <tbody id="tablaConfigCompleta">
               <tr>
-                <td colspan="3" style="text-align:center;padding:30px;color:var(--muted);">Aquí se mostrarán las opciones de
+                <td colspan="4" style="text-align:center;padding:30px;color:var(--muted);">Aquí se mostrarán las opciones de
                   configuración del sistema.</td>
               </tr>
             </tbody>
           </table>
+        </div>
+      </div>
+      <div class="panel" id="userDetailCard" style="display:none; margin-top:24px;">
+        <div class="panel-header" style="align-items:center; gap:12px;">
+          <div>
+            <div class="panel-title">Detalle del Usuario</div>
+            <div id="userDetailSubtitle" style="font-family:var(--mono);font-size:.74rem;color:var(--muted);margin-top:6px;"></div>
+          </div>
+          <div style="margin-left:auto; display:flex; align-items:center; gap:10px;">
+            <span id="userStatusText" class="status-label"></span>
+          </div>
+        </div>
+        <div class="user-card-content">
+          <div class="user-profile-card">
+            <div class="profile-avatar-large" id="userDetailAvatar">AA</div>
+            <div>
+              <div class="user-detail-name" id="userDetailName">Nombre Apellido</div>
+              <div class="user-detail-plan" id="userDetailPlan">PLAN</div>
+            </div>
+          </div>
+          <div class="user-detail-grid">
+            <div class="detail-row"><span>Usuario</span><span id="userDetailId">#0000</span></div>
+            <div class="detail-row"><span>Cédula</span><span id="userDetailCedula">000000000</span></div>
+            <div class="detail-row"><span>Correo</span><span id="userDetailCorreo">correo@ejemplo.com</span></div>
+            <div class="detail-row"><span>Teléfono</span><span id="userDetailTelefono">+00 000 000</span></div>
+            <div class="detail-row"><span>Dirección</span><span id="userDetailDireccion">Dirección</span></div>
+            <div class="detail-row"><span>Fecha Nac.</span><span id="userDetailFecha">01 Ene 2000</span></div>
+            <div class="detail-row"><span>Tipo Sangre</span><span id="userDetailTipoSangre">O-</span></div>
+            <div class="detail-row"><span>Estatura</span><span id="userDetailEstatura">1.75 m</span></div>
+            <div class="detail-row"><span>Peso</span><span id="userDetailPeso">70 kg</span></div>
+            <div class="detail-row"><span>Lesiones</span><span id="userDetailLesiones">Ninguna</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal eliminar usuario -->
+    <div class="modal-overlay" id="modalDeleteOverlay" style="display:none;" onclick="closeDeleteModalOutside(event)">
+      <div class="modal">
+        <div class="modal-header">
+          <div class="modal-title">Eliminar Usuario</div>
+          <button class="modal-close" onclick="closeDeleteModal()">✕</button>
+        </div>
+        <div class="modal-body" id="modalDeleteBody">
+          <p id="modalDeleteText">¿Estás seguro de eliminar esta cuenta?</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-ghost" onclick="closeDeleteModal()">Cancelar</button>
+          <button class="btn btn-danger" id="confirmDeleteBtn">Eliminar usuario</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ VISTA CLASES ═══════════════ -->
+    <div class="content" id="vista-clases" style="display:none; flex:1; min-height:calc(100vh - 61px);">
+      <div class="panel" style="width:100%;">
+        <div class="panel-header">
+          <div class="panel-title">Gestión de Clases</div>
+        </div>
+        <div style="padding:40px;text-align:center;color:var(--muted);">
+          <p>Aquí se mostrarán las clases del gimnasio</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ VISTA PAGOS ═══════════════ -->
+    <div class="content" id="vista-pagos" style="display:none; flex:1; min-height:calc(100vh - 61px);">
+      <div class="panel" style="width:100%;">
+        <div class="panel-header">
+          <div class="panel-title">Gestión de Pagos</div>
+        </div>
+        <div style="padding:40px;text-align:center;color:var(--muted);">
+          <p>Aquí se mostrarán los pagos y facturas de los miembros</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ VISTA EQUIPOS ═══════════════ -->
+    <div class="content" id="vista-equipos" style="display:none; flex:1; min-height:calc(100vh - 61px);">
+      <div class="panel" style="width:100%;">
+        <div class="panel-header">
+          <div class="panel-title">Gestión de Equipos</div>
+        </div>
+        <div style="padding:40px;text-align:center;color:var(--muted);">
+          <p>Aquí se mostrarán los equipos disponibles en el gimnasio</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ VISTA ENTRENADORES ═══════════════ -->
+    <div class="content" id="vista-entrenadores" style="display:none; flex:1; min-height:calc(100vh - 61px);">
+      <div class="panel" style="width:100%;">
+        <div class="panel-header">
+          <div class="panel-title">Gestión de Entrenadores</div>
+        </div>
+        <div style="padding:40px;text-align:center;color:var(--muted);">
+          <p>Aquí se mostrarán los entrenadores disponibles</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ VISTA REPORTES ═══════════════ -->
+    <div class="content" id="vista-reportes" style="display:none; flex:1; min-height:calc(100vh - 61px);">
+      <div class="panel" style="width:100%;">
+        <div class="panel-header">
+          <div class="panel-title">Reportes del Sistema</div>
+        </div>
+        <div style="padding:40px;text-align:center;color:var(--muted);">
+          <p>Aquí se mostrarán los reportes del gimnasio</p>
         </div>
       </div>
     </div>

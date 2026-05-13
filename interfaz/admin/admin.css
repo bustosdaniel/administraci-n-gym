@@ -361,6 +361,47 @@
     letter-spacing: 1.5px;
   }
 
+  /* Indicador de pago (pequeño) */
+  .pay-indicator { display:inline-block; width:14px; height:14px; border-radius:50%; box-shadow:0 0 0 4px rgba(0,0,0,0.06); vertical-align:middle; }
+  .pay-indicator.pay-ok { background: var(--green); box-shadow: 0 0 0 6px rgba(34,197,94,0.08); }
+  .pay-indicator.pay-pending { background: var(--yellow); box-shadow: 0 0 0 6px rgba(234,179,8,0.08); }
+  .pay-indicator.pay-due { background: var(--red); box-shadow: 0 0 0 6px rgba(239,68,68,0.08); }
+
+  .status-label {
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:96px;
+    padding:6px 12px;
+    border-radius:999px;
+    font-family:var(--mono);
+    font-size:.7rem;
+    letter-spacing:1px;
+  }
+  .status-ok { background: rgba(34,197,94,.12); color: var(--green); border: 1px solid rgba(34,197,94,.2); }
+  .status-pending { background: rgba(234,179,8,.12); color: var(--yellow); border: 1px solid rgba(234,179,8,.2); }
+  .status-due { background: rgba(239,68,68,.12); color: var(--red); border: 1px solid rgba(239,68,68,.2); }
+
+  .user-card-content { padding: 20px; display: grid; gap: 20px; }
+  .user-profile-card { display:flex; align-items:center; gap:18px; border-bottom:1px solid var(--border); padding-bottom:18px; }
+  .profile-avatar-large {
+    width: 72px;
+    height: 72px;
+    border-radius: 18px;
+    display: grid;
+    place-items: center;
+    font-family: var(--display);
+    font-size: 1.6rem;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .user-detail-name { font-size: 1.2rem; font-weight: 700; letter-spacing: .6px; }
+  .user-detail-plan { font-family: var(--mono); font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .user-detail-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .detail-row { display:flex; justify-content:space-between; gap: 10px; background: rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.06); border-radius: 6px; padding: 12px 14px; }
+  .detail-row span:first-child { color: var(--muted); font-family: var(--mono); font-size:.72rem; text-transform: uppercase; }
+  .detail-row span:last-child { color: var(--text); font-weight: 600; }
+
   /* SCHEDULE */
   .schedule-list { padding: 4px 0; }
   .schedule-item {
