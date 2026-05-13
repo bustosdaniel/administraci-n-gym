@@ -298,5 +298,20 @@
     "tipo_sangre": "A-",
     "lesiones": "Ninguna",
     "plan": "premium"
+  },
+  {
+    "id_usuario": 24,
+    "nombre": "Juan",
+    "apellido": "Vaszquez",
+    "correo_electronico": "juan12@gmail.com",
+    "cedula": "10908770540",
+    "numero_celular": "3114144223",
+    "fecha_nacimiento": "1986-02-20",
+    "direccion": "av 68 sur",
+    "peso": "72",
+    "estatura": "175",
+    "tipo_sangre": "B-",
+    "lesiones": "ninguna",
+    "plan": "Elite"
   }
 ]
