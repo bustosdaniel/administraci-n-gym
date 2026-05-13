@@ -111,6 +111,18 @@ def actualizar_password_usuario(correo: str, nueva_password: str) -> bool:
     return False
 
 
+def eliminar_credenciales_usuario(user_id: int) -> bool:
+    """Elimina las credenciales de un usuario por su id. Devuelve True si se eliminó."""
+    datos = _cargar_credenciales()
+    antes = len(datos.get('usuarios', []))
+    datos['usuarios'] = [u for u in datos.get('usuarios', []) if u.get('id') != user_id]
+    despues = len(datos.get('usuarios', []))
+    if despues < antes:
+        _guardar_credenciales(datos)
+        return True
+    return False
+
+
 # ══════════════════════════════════════════════
 # LOGIN
 # ══════════════════════════════════════════════

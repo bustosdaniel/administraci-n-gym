@@ -234,6 +234,29 @@ def get_miembros_todos():
         })
     return jsonify(miembros)
 
+# Obtener datos completos de un usuario (admin)
+@app.route('/api/usuarios/<int:user_id>', methods=['GET'])
+@requiere_auth(rol='admin')
+def get_usuario_por_id(user_id):
+    for u in usuarios.usuarios:
+        if u.id_usuario == user_id:
+            return jsonify({
+                'id': u.id_usuario,
+                'nombre': u.nombre,
+                'apellido': u.apellido,
+                'correo': u.correo_electronico,
+                'telefono': u.numero_celular,
+                'cedula': u.cedula,
+                'fecha_nacimiento': u.fecha_nacimiento,
+                'direccion': u.direccion,
+                'peso': u.peso,
+                'estatura': u.estatura,
+                'tipo_sangre': u.tipo_sangre,
+                'lesiones': u.lesiones,
+                'plan': getattr(u, 'plan', 'Premium')
+            })
+    return jsonify({'error': 'Usuario no encontrado'}), 404
+
 # perfil del usuario autenticado
 
 @app.route('/api/usuario/perfil', methods=['GET'])
@@ -336,6 +359,25 @@ def crear_usuario():
     )
 
     return jsonify({'success': True, 'id': nuevo.id_usuario}), 201
+
+
+# Eliminar usuario por id (admin)
+@app.route('/api/usuarios/<int:user_id>', methods=['DELETE'])
+@requiere_auth(rol='admin')
+def eliminar_usuario(user_id):
+    # Buscar y eliminar usuario
+    for i, u in enumerate(usuarios.usuarios):
+        if u.id_usuario == user_id:
+            usuarios.usuarios.pop(i)
+            # Eliminar credenciales asociadas
+            from auth import eliminar_credenciales_usuario
+            try:
+                eliminar_credenciales_usuario(user_id)
+            except Exception:
+                pass
+            guardar_usuarios()
+            return jsonify({'ok': True, 'mensaje': 'Usuario eliminado'}), 200
+    return jsonify({'error': 'Usuario no encontrado'}), 404
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
